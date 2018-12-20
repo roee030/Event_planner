@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Password = (EditText) findViewById(R.id.PasswordField);
         login = (Button)findViewById(R.id.LoginBt);
         login.setOnClickListener(this);
-
-
-
     }
 
     private void startSignIn()
