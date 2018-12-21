@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
+import java.util.List;
 
 public class DatabaseHelper {
     DatabaseReference db;
@@ -86,6 +87,15 @@ public class DatabaseHelper {
         db=FirebaseDatabase.getInstance().getReference();
 
         db.child("ev.getEventID()").removeValue();
+
+    }
+    public void removeProductFromEventProductsList(Event ev)
+    {
+        int id = ev.getEventID();
+        List<Product> temp = ev.getPrudoct();
+
+
+
 
     }
 

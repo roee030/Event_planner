@@ -1,47 +1,47 @@
 package com.example.roeea.eventplanner;
 
-/**
- * Actual class of user.
- */
 public class User {
-    private String username;
-    private String password;
-    private String name;
-    private String lastName;
     private String email;
+    private String userName;
+    private String password;
 
-    public User(String username,
-                String password,
-                String name,
-                String lastName,
-                String email) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
+    public String getEmail() {
+        return email;
     }
 
     public String getUsername() {
-        return username;
+        return userName;
+    }
+
+
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstName(String firstName) {
+        this.userName = firstName;
+    }
+
+
+    public User()
+    {
+
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getEmail() {
-        return email;
+    public User(String eml, String fn, String pass)
+    {
+        this.email=eml;
+        this.userName=fn;
+
+        this.password = pass;
     }
-
-    public String getName(){
-        return name;
-    }
-
-    public String getLastName(){
-        return lastName;
-    }
-
-    // here we may add some new function such as changing details.
-
 }
