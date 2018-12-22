@@ -1,4 +1,4 @@
-package com.example.roeea.eventplanner;
+package com.example.roeea.eventplanner.ObjectClasses;
 
 public class Product {
 
