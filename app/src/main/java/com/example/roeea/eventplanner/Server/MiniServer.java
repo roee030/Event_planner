@@ -1,11 +1,7 @@
 package com.example.roeea.eventplanner.Server;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import com.example.roeea.eventplanner.Activities.MainActivity;
-import com.example.roeea.eventplanner.Activities.RegisterActivity;
 import com.example.roeea.eventplanner.DatabaseAPI.DatabaseHelper;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,8 +12,12 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MiniServer {
     private static final MiniServer miniServerInstance = new MiniServer();
     private DatabaseHelper myDb = null;
-    FirebaseAuth Mauth=FirebaseAuth.getInstance();
+    FirebaseAuth Mauth = FirebaseAuth.getInstance();
     private boolean flag;
+
+    /**
+     * Constructor
+     */
     private MiniServer() {
     }
 
@@ -40,7 +40,6 @@ public class MiniServer {
                 if(!task.isSuccessful())
                 {
                    flag=true;
-
                 }
             }
         });

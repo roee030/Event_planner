@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:paddingTop="40dp" />
+        android:paddingTop="40dp"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/PasswordField"
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingTop="40dp" />
 
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/fui_linkColor"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@android:color/white" />
 
     <Button
@@ -44,6 +45,6 @@
 
         android:layout_marginTop="10dp"
         android:background="@color/fui_linkColor"
-        android:text="REGISTER"
+        android:text="@string/register"
         android:textColor="@android:color/white" />
 </LinearLayout>

@@ -4,65 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:background="@color/cardview_light_background"
     android:orientation="vertical"
     tools:context=".Activities.MainActivity">
 
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:text="Register"
+        android:text="@string/Register"
         android:textSize="50dp"
-
         />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
-        android:hint="Full name"
         android:id="@+id/fullnametextregister"
-        />
-
-    <EditText
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="50dp"
-        android:id="@+id/emailtextregister"
-        android:hint="Email" />
+        android:hint="@string/full_name" />
 
     <EditText
+
+        android:id="@+id/emailtextregister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+        android:hint="@string/email" />
+
+    <EditText
+        android:id="@+id/passwordtextregister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/passwordtextregister"
-        android:hint="Password" />
+        android:hint="@string/password" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Regster"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="150dp"
         android:id="@+id/registerbutton"
-
-        />
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="150dp"
-        android:id="@+id/registerBackBT"
+        android:text="@string/Register"
+
         />
+
+    <Button
+        android:id="@+id/registerBackBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back" />
 </LinearLayout>

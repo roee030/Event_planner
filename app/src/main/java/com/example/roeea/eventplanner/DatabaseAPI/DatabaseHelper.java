@@ -1,5 +1,7 @@
 package com.example.roeea.eventplanner.DatabaseAPI;
 
+import android.content.Context;
+
 import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.Product;
 import com.firebase.client.DataSnapshot;
@@ -18,8 +20,9 @@ public class DatabaseHelper {
     private Event ev;
     private final String url = "https://event-planner-d32e9.firebaseio.com/";
 
-    public DatabaseHelper() {
+    public DatabaseHelper(Context context) {
         FB = new Firebase(url);
+        Firebase.setAndroidContext(context);
         db = FirebaseDatabase.getInstance().getReference();
     }
 

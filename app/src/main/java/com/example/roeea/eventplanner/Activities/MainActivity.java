@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.roeea.eventplanner.DatabaseAPI.DatabaseHelper;
 import com.example.roeea.eventplanner.R;
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private DatabaseHelper myDBH;
     private Button login;
     private Firebase mRRef;
     private FirebaseAuth mAuth;
