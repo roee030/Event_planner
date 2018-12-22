@@ -1,14 +1,23 @@
 package com.example.roeea.eventplanner.Server;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
+import com.example.roeea.eventplanner.Activities.MainActivity;
+import com.example.roeea.eventplanner.Activities.RegisterActivity;
 import com.example.roeea.eventplanner.DatabaseAPI.DatabaseHelper;
 import com.example.roeea.eventplanner.ObjectClasses.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MiniServer {
     private static final MiniServer miniServerInstance = new MiniServer();
     private DatabaseHelper myDb = null;
-
+    FirebaseAuth Mauth=FirebaseAuth.getInstance();
+    private boolean flag;
     private MiniServer() {
     }
 
@@ -20,60 +29,21 @@ public class MiniServer {
     }
 
 
-    /**
-     * Function takes user credentials and try to perform registration.
-     * It will fail if username is already exists.
-     *
-     * @return true if and only if the registration is o.k.
-     */
-    public boolean performRegistrationOfUserCall(User user) {
-        if (this.myDb.getUserByUsernameQuery(user.getUsername()) != null) {
-            return false;
-        }
-        return this.myDb.setNewUser(user);
+    public boolean checkRegister(User user)
+    {
+        String pass = user.getPassword();
+        String email = user.getEmail();
+        flag = false;
+        Mauth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful())
+                {
+                   flag=true;
 
+                }
+            }
+        });
+        return false;
     }
-
-
-    /**
-     * This function performs login
-     *
-     * @param username
-     * @param password
-     * @return return Null if login failed.
-     */
-
-    public User performLoginOfUserCall(String username, String password) {
-        User result = this.myDb.getUserByUsernameQuery(username);
-
-
-        if (result == null) {
-
-            return null;
-
-        }
-
-
-        if (result.getPassword().equals(password)) {
-            return result;
-
-        }
-
-        return null;
-
-    }
-
-    /**
-     * Important for database access. It should be called in
-     * any activity that connects to data base.
-     *
-     * @param context
-     */
-
-
-    public void setContext(Context context) {
-        this.myDb = new DatabaseHelper(context);
-
-    }
-
 }
