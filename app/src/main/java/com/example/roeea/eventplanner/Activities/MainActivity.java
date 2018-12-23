@@ -10,86 +10,70 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.DatabaseAPI.DatabaseHelper;
+import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.R;
+import com.example.roeea.eventplanner.Server.MiniServer;
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private DatabaseHelper myDBH;
+    private MiniServer server;
     private Button login;
-    private Firebase mRRef;
-    private FirebaseAuth mAuth;
+    private Button RegisterButton;
     private EditText Email;
     private EditText Password;
-    private FirebaseAuth mAuthlistener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MiniServer.getServerInstance().setContext(getBaseContext());
 
         Firebase.setAndroidContext(this);
-        mAuth = FirebaseAuth.getInstance();
-        mRRef = new Firebase("https://event-planner-d32e9.firebaseio.com/");
         Email = (EditText) findViewById(R.id.EmailField);
         Password = (EditText) findViewById(R.id.PasswordField);
-        login = (Button)findViewById(R.id.LoginBt);
-        login.setOnClickListener(this);
+        RegisterButton = (Button) findViewById(R.id.MoveToRegisterationActivity);
+        login = (Button) findViewById(R.id.LoginBt);
 
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSignIn();
+            }
+        });
+
+        RegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), RegisterActivity.class));
+            }
+        });
 
 
     }
+
 
     private void startSignIn()
     {
-        String EmailUser = Email.getText().toString();
-        String PasswordUser = Password.getText().toString();
-        if(TextUtils.isEmpty(EmailUser)||TextUtils.isEmpty(PasswordUser))
+        String UserMail = Email.getText().toString();
+        String UserPassword = Password.getText().toString();
+        if(TextUtils.isEmpty(UserMail)||TextUtils.isEmpty(UserPassword))
         {
             Toast.makeText(MainActivity.this,"Fields are empty",Toast.LENGTH_LONG).show();
         }
-
         else {
-            mAuth.signInWithEmailAndPassword(EmailUser, PasswordUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(MainActivity.this, "Sign in faild", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(MainActivity.this, "Wellcome again!", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            User user = MiniServer
+                    .getServerInstance()
+                    .login(UserMail, UserPassword, MainActivity.this);
+            if (user != null) {
+                UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(user);
+                startActivity(new Intent(this, AccountActivity.class));
+            }
         }
-
-
-
-    }
-
-
-
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.LoginBt:
-                startSignIn();
-                break;
-            case R.id.RegisterBT:
-                Intent register = new Intent(MainActivity.this,RegisterActivity.class);
-                startActivity(register);
-                break;
-                default:
-                    break;
-        }
-
-
-
-
     }
 }

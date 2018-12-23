@@ -39,12 +39,11 @@
         android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/RegisterBT"
+        android:id="@+id/MoveToRegisterationActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="10dp"
         android:background="@color/fui_linkColor"
-        android:text="@string/register"
+        android:text="@string/Register"
         android:textColor="@android:color/white" />
 </LinearLayout>

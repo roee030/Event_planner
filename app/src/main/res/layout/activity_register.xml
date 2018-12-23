@@ -14,13 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Register"
-        android:textSize="50dp"
-        />
+        android:textSize="50dp" />
 
     <EditText
         android:id="@+id/fullnametextregister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textAutoComplete"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="50dp"
@@ -31,6 +31,7 @@
         android:id="@+id/emailtextregister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="50dp"
@@ -38,6 +39,7 @@
 
     <EditText
         android:id="@+id/passwordtextregister"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
@@ -51,12 +53,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Register"
-
         />
 
-    <Button
-        android:id="@+id/registerBackBT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back" />
 </LinearLayout>
