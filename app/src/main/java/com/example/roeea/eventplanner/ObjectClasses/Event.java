@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Event {
-    private int eventID;
+    private String eventID;
     private String name;
     private Date date;
     private Location loc;
@@ -33,7 +33,7 @@ public class Event {
                 '}';
     }
 
-    public Event(int eID, String nm, Date dt, Location lc, List<User> mannager, List<User> gsts, List<User> invi, List<Product> pru) {
+    public Event(String eID, String nm, Date dt, Location lc, List<User> mannager, List<User> gsts, List<User> invi, List<Product> pru) {
         this.eventID = eID;
         this.name = nm;
         this.loc = lc;
@@ -44,11 +44,11 @@ public class Event {
         this.Products = pru;
     }
 
-    public int getEventID() {
+    public String  getEventID() {
         return eventID;
     }
 
-    public void setEventID(int eventID) {
+    public void setEventID(String eventID) {
         this.eventID = eventID;
     }
 

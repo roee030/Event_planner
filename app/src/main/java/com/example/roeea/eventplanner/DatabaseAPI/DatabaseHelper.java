@@ -54,7 +54,7 @@ public class DatabaseHelper {
     }
 
     public void setNewUser(User user) {
-        db.child("Event's").child(user.getEmail()).setValue(user);
+        db.child("Users").child(user.getEmail()).setValue(user);
         //need to add method that check if event upload to firebase
     }
 
@@ -65,8 +65,11 @@ public class DatabaseHelper {
      * @param ev - reference to the event
      * @return void
      */
-    public void setNewEvent(Event ev) {
-        db.child("Events").push().setValue(ev);
+    public void setNewEvent(Event ev)
+    {
+        DatabaseReference pushedPostRef = db.child("Events").push();
+        ev.setEventID(pushedPostRef.getKey());
+        pushedPostRef.setValue(ev);
         //need to add method that check if event upload to firebase
     }
 
@@ -118,7 +121,7 @@ public class DatabaseHelper {
      * @param product_to_remove - The product one wants to remove from the event ev
      */
     public void removeProductFromEventProductsList(Event ev, Product product_to_remove) {
-        int id = ev.getEventID();
+        String id = ev.getEventID();
         List<Product> temp = ev.getProducts();
         temp.remove(product_to_remove);
     }
