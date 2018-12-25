@@ -1,4 +1,4 @@
-package com.example.roeea.eventplanner.Server;
+/*package com.example.roeea.eventplanner.Server;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,13 +18,13 @@ public class MiniServer {
     /**
      * Constructor
      */
-    private MiniServer() {
+   /* private MiniServer() {
     }
 
     /**
      * @return The instance of the local server.
      */
-    public static MiniServer getServerInstance() {
+   /* public static MiniServer getServerInstance() {
         return MiniServer.miniServerInstance;
     }
 
@@ -34,7 +34,7 @@ public class MiniServer {
      * @param password
      * @return return Null if login failed.
      */
-    public User login(String email, String password, Context context)
+/*    public User login(String email, String password, Context context)
     {
         User result = this.myDb.getUserByEmail(email);
 
@@ -57,7 +57,7 @@ public class MiniServer {
      * @param context
      * @return true if user can register, false otherwise.
      */
-    public boolean preformRegistration(String email, Context context)
+ /*   public boolean preformRegistration(String email, Context context)
     {
         String fireBaseEmail = User.ConvertEmailToFireBaseEmailField(email);
         Log.w("MiniServer", "email = " + email.toString() + "and contverter result: " + fireBaseEmail.toString());
@@ -75,7 +75,8 @@ public class MiniServer {
      * any activity that connects to data base.
      * @param context
      */
-    public void setContext(Context context) {
+/*    public void setContext(Context context) {
         this.myDb = new DatabaseHelper(context);
     }
 }
+*/
