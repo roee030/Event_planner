@@ -21,7 +21,6 @@ public class User {
     private DatabaseReference firDatabaseUsers;
     private String username;
     private String email;
-    private String UID;
     private List<String> events;
 
     public User() {
@@ -29,11 +28,9 @@ public class User {
     }
 
     public User(String username,
-                String email,
-                String UID) {
+                String email) {
         this.username = username;
         this.email = email;
-        this.UID = UID;
     }
 
 
@@ -49,11 +46,6 @@ public class User {
         return User.ConvertEmailToFireBaseEmailField(this.email);
     }
 
-
-
-    public String getUID(){
-        return this.UID;
-    }
     public User getUserByUID(String UID, final getUser u) {
         firDatabaseUsers.child("Users").child(UID).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override

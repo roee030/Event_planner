@@ -37,20 +37,18 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        user = UserDataHolder.getUserDataHolderInstance().getAuthenticatedUser();
         Hellomsg = (TextView) findViewById(R.id.Hellomsg);
         fAuth = FirebaseAuth.getInstance();
-//       fAuth.getInstance().signOut();
+//        fAuth.getInstance().signOut();
         if(fAuth.getCurrentUser() == null)
         {
             Intent loginIntent = new Intent(this, MainActivity.class);
             startActivity(loginIntent);
             finish();
         }
-//        email = fAuth.getCurrentUser().getEmail().replace('.','|'); <- what is this?
         FBdb = FirebaseDatabase.getInstance();
 
-        String userUID = user.getUID();
+        String userUID = fAuth.getInstance().getCurrentUser().getUid();
         firDatabaseUsers = root.child("Users").child(userUID);
 
 
@@ -59,9 +57,9 @@ public class AccountActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-//                user.setUsername(value);
-                Log.d(TAG, "Value is: " + value);
+                String userName = dataSnapshot.child("username").getValue(String.class);
+                Hellomsg.append(" " + userName);
+                Log.d(TAG, "Value is: " + userName);
             }
 
             @Override
@@ -70,13 +68,6 @@ public class AccountActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-      //  user.setUsername(fAuth.getCurrentUser(). );
-//        getDetailsUser();
-
-
- //       Hellomsg.append(" "+user.getUsername());
-
     }
 
     private void getDetailsUser(){
