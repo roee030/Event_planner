@@ -1,6 +1,7 @@
 package com.example.roeea.eventplanner.Activities;
 
 import android.content.Intent;
+import android.service.autofill.UserData;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -68,11 +69,37 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, AccountActivity.class));
         }
     }
+
+    private void register(String email, String password) {
+        if (!validateForm()) {
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                        } else {
+
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                     }
+                });
+        // [END create_user_with_email]
+    }
+
     private void startSignIn() {
         String UserMail = Email.getText().toString();
         String UserPassword = Password.getText().toString();
-        if (TextUtils.isEmpty(UserMail) || TextUtils.isEmpty(UserPassword)) {
-            Toast.makeText(MainActivity.this, "Fields are empty", Toast.LENGTH_LONG).show();
+//        if (TextUtils.isEmpty(UserMail) || TextUtils.isEmpty(UserPassword)) {
+//            Toast.makeText(MainActivity.this, "Fields are empty", Toast.LENGTH_LONG).show();
+//        }
+        if(!validateForm()){
+            return;
         }
         mAuth.signInWithEmailAndPassword(UserMail,UserPassword).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -83,10 +110,35 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(new User());
                     startActivity(new Intent(MainActivity.this, AccountActivity.class));
                 }
             }
         });
         }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String email = Email.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            Email.setError("Required.");
+            valid = false;
+        } else {
+            Email.setError(null);
+        }
+
+        String password = Password.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            Password.setError("Required.");
+            valid = false;
+        } else {
+            Password.setError(null);
+        }
+
+        return valid;
     }
+
+    }
+
 

@@ -7,14 +7,15 @@
     tools:context=".Activities.AccountActivity">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/Hellomsg"
-        android:text="Hello"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="100dp"
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
 
-        />
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="9dp"
+        android:text="Hello" />
 
 
 

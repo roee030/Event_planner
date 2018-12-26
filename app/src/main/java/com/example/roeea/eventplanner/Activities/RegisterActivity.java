@@ -75,20 +75,29 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 */
-                User userRegisteration = new User(Fullname.getText().toString(), PasswordRegister.getText().toString(), EmailRegister.getText().toString());
+                String clientId = firDatabaseUsers.push().getKey();
+                User userRegisteration = new User(Fullname.getText().toString(), EmailRegister.getText().toString(), clientId);
                 Log.i("Register activity",userRegisteration.usertoString());
-                mRRef.child("Users").child(EmailRegister.getText().toString().replace('.','|')).setValue(userRegisteration);
+
+                firDatabaseUsers.child(clientId).setValue(userRegisteration);
                 mAuth.createUserWithEmailAndPassword(EmailRegister.getText().toString(),PasswordRegister.getText().toString()).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Register complete!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getBaseContext(), AccountActivity.class));
+                        try {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(RegisterActivity.this, "Register complete!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getBaseContext(), AccountActivity.class));
+                                finish();
 
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Register failed try again later!!!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Register failed try again later!!!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
                         }
                     }
+
                 });
 
             }

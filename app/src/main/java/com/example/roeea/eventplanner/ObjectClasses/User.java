@@ -12,33 +12,36 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 public class User {
     private Firebase mRRef;
     private FirebaseAuth mAuth;
     private FirebaseDatabase FBdb;
     private DatabaseReference firDatabaseUsers;
     private String username;
-    private String password;
     private String email;
+    private String UID;
+    private List<String> events;
 
     public User() {
         firDatabaseUsers = FirebaseDatabase.getInstance().getReference();
     }
 
     public User(String username,
-                String password,
-                String email) {
+                String email,
+                String UID) {
         this.username = username;
-        this.password = password;
         this.email = email;
+        this.UID = UID;
     }
 
 
     public String usertoString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", events=' '\''" +
                 '}';
     }
 
@@ -48,8 +51,11 @@ public class User {
 
 
 
-    public User getUserByEmail(String email, final getUser u) {
-        firDatabaseUsers.child("Users").child(email).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+    public String getUID(){
+        return this.UID;
+    }
+    public User getUserByUID(String UID, final getUser u) {
+        firDatabaseUsers.child("Users").child(UID).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
                 User user = new User();
@@ -82,20 +88,12 @@ public class User {
         this.username = username;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {

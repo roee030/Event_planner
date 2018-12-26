@@ -1,18 +1,19 @@
 package com.example.roeea.eventplanner.Activities;
 
-import android.support.annotation.NonNull;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.getUser;
 import com.example.roeea.eventplanner.R;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,34 +22,69 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AccountActivity extends AppCompatActivity {
 
+    private static final String TAG = "home";
     private TextView Hellomsg;
     private Firebase mRRef;
-    private FirebaseAuth mAuth;
+    private FirebaseUser fUser;
+    private FirebaseAuth fAuth;
     private FirebaseDatabase FBdb;
     private DatabaseReference firDatabaseUsers;
-    private User userNew;
+    private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
+    private User user;
     private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        userNew = new User();
+        user = UserDataHolder.getUserDataHolderInstance().getAuthenticatedUser();
         Hellomsg = (TextView) findViewById(R.id.Hellomsg);
-        mAuth = FirebaseAuth.getInstance();
-        email = mAuth.getCurrentUser().getEmail().replace('.','|');
-        getDetailsUser();
+        fAuth = FirebaseAuth.getInstance();
+//       fAuth.getInstance().signOut();
+        if(fAuth.getCurrentUser() == null)
+        {
+            Intent loginIntent = new Intent(this, MainActivity.class);
+            startActivity(loginIntent);
+            finish();
+        }
+//        email = fAuth.getCurrentUser().getEmail().replace('.','|'); <- what is this?
+        FBdb = FirebaseDatabase.getInstance();
 
-        Hellomsg.append(" "+userNew.getUsername()+" "+userNew.getPassword());
+        String userUID = user.getUID();
+        firDatabaseUsers = root.child("Users").child(userUID);
+
+
+        firDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+//                user.setUsername(value);
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+      //  user.setUsername(fAuth.getCurrentUser(). );
+//        getDetailsUser();
+
+
+ //       Hellomsg.append(" "+user.getUsername());
 
     }
 
     private void getDetailsUser(){
-        userNew.getUserByEmail(email, new getUser() {
+        user.getUserByUID(email, new getUser() {
             @Override
             public void callBack(User user) {
-                userNew = user;
-                Toast.makeText(AccountActivity.this,userNew.getUsername(),Toast.LENGTH_SHORT).show();
+                AccountActivity.this.user = user;
+                Toast.makeText(AccountActivity.this, AccountActivity.this.user.getUsername(),Toast.LENGTH_SHORT).show();
             }
         });
     }
