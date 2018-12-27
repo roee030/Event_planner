@@ -46,4 +46,10 @@
         android:background="@color/fui_linkColor"
         android:text="@string/Register"
         android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnInvite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Invite" />
 </LinearLayout>

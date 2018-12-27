@@ -3,6 +3,7 @@ package com.example.roeea.eventplanner.Activities;
 import android.content.Intent;
 import android.service.autofill.UserData;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-
         Firebase.setAndroidContext(this);
         Email = (EditText) findViewById(R.id.EmailField);
         Password = (EditText) findViewById(R.id.PasswordField);
@@ -58,15 +58,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+        // Sending invite stuff, move to another place
+        findViewById(R.id.btnInvite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String eventId = "replaceMe";
+                startActivity(
+                        new Intent(Intent.ACTION_SEND)
+                                .putExtra(Intent.EXTRA_TEXT, "Please join my event at https://sites.google.com/view/event-planner-ariel?eventId=" + eventId)
+                                .setType("text/plain"));
+            }
+        });
+
+
     }
+
+    private String receiveInvite() {
+        if (getIntent().getData() != null && getIntent().getData().getQueryParameter("eventId") != null) {
+            String eventId = getIntent().getData().getQueryParameter("eventId");
+            Toast.makeText(this, "Got " + eventId, Toast.LENGTH_LONG);
+            return eventId;
+            // Start event activity with this eventId as a string extra (putExtra)
+        } else return null;
+    }
+
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser!=null)
-        {
-            startActivity(new Intent(MainActivity.this, AccountActivity.class));
+
+        if (currentUser != null) {
+            startAccountActivity();
         }
     }
 
@@ -87,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                     }
+                    }
                 });
         // [END create_user_with_email]
     }
@@ -98,24 +121,26 @@ public class MainActivity extends AppCompatActivity {
 //        if (TextUtils.isEmpty(UserMail) || TextUtils.isEmpty(UserPassword)) {
 //            Toast.makeText(MainActivity.this, "Fields are empty", Toast.LENGTH_LONG).show();
 //        }
-        if(!validateForm()){
+        if (!validateForm()) {
             return;
         }
-        mAuth.signInWithEmailAndPassword(UserMail,UserPassword).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(UserMail, UserPassword).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful())
-                {
-                    Toast.makeText(MainActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                } else {
                     UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(new User());
-                    startActivity(new Intent(MainActivity.this, AccountActivity.class));
+                    startAccountActivity();
                 }
             }
         });
-        }
+    }
+
+    private void startAccountActivity() {
+        startActivity(new Intent(MainActivity.this, AccountActivity.class)
+                .putExtra("eventID", receiveInvite()));
+    }
 
     private boolean validateForm() {
         boolean valid = true;
@@ -139,6 +164,6 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
-    }
+}
 
 

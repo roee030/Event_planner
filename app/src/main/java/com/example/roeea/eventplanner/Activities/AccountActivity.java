@@ -37,9 +37,18 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+        String eventID = getIntent().getStringExtra("eventID");
+
+        // Receiving invite
+        if(eventID != null){
+            startActivity(new Intent(this, EventInvitationActivity.class)
+                    .putExtra("eventID", eventID));
+        }
+
         Hellomsg = (TextView) findViewById(R.id.Hellomsg);
         fAuth = FirebaseAuth.getInstance();
-//        fAuth.getInstance().signOut();
+//       fAuth.getInstance().signOut();
         if(fAuth.getCurrentUser() == null)
         {
             Intent loginIntent = new Intent(this, MainActivity.class);
