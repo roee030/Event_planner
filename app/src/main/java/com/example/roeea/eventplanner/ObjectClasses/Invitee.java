@@ -3,7 +3,7 @@ package com.example.roeea.eventplanner.ObjectClasses;
 import java.util.List;
 
 public class Invitee {
-    List<Event>inviteeEvent;
+    private List<String>inviteeEvent;
     public void accept()
     {
 
@@ -15,5 +15,9 @@ public class Invitee {
     public void declineAll()
     {
 
+    }
+
+    public List<String> getInviteeEvent() {
+        return inviteeEvent;
     }
 }

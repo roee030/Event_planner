@@ -1,7 +1,13 @@
 package com.example.roeea.eventplanner.ObjectClasses;
 
 import android.location.Location;
+import android.support.annotation.NonNull;
 
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.List;
 
@@ -14,11 +20,29 @@ public class Event {
     private List<User> guests;
     private List<User> Invated;
     private List<Product> Products;
+    private DatabaseReference fireDatabaseT;
 
     public Event() {
-
     }
 
+
+    public void getEventByKey(String key, final get<Event> element)
+    {
+        fireDatabaseT = FirebaseDatabase.getInstance().getReference();
+        fireDatabaseT.child("Events").child(key).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
+                Event event = new Event();
+                event = dataSnapshot.getValue(Event.class);
+                element.callBack(event);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     @Override
     public String toString() {
         return "Event{" +

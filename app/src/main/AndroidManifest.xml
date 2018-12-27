@@ -29,10 +29,13 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.AccountActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".EventCreationActivity" />
-        <activity android:name=".Activities.EventInvitationActivity"></activity>
+        <activity android:name=".Activities.EventInvitationActivity" />
+        <activity
+            android:name=".Activities.AccountActivity"
+            android:label="@string/title_activity_account"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

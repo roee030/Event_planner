@@ -21,7 +21,9 @@ public class User {
     private DatabaseReference firDatabaseUsers;
     private String username;
     private String email;
-    private List<String> events;
+    private Manager managerOf;
+    private Invitee invitedTo;
+    private Guest guestIn;
 
     public User() {
         firDatabaseUsers = FirebaseDatabase.getInstance().getReference();
@@ -31,22 +33,12 @@ public class User {
                 String email) {
         this.username = username;
         this.email = email;
+        this.managerOf = new Manager();
+        this.invitedTo = new Invitee();
+        this.guestIn = new Guest();
     }
 
-
-    public String usertoString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", events=' '\''" +
-                '}';
-    }
-
-    public String ConvertEmailToFireBaseEmailField() {
-        return User.ConvertEmailToFireBaseEmailField(this.email);
-    }
-
-    public User getUserByUID(String UID, final getUser u) {
+    public User getUserByUID(String UID, final get<User> u) {
         firDatabaseUsers.child("Users").child(UID).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
@@ -60,14 +52,7 @@ public class User {
 
             }
         });
-
-
-
-
-
-
         return null;
-
     }
 
     public static String ConvertEmailToFireBaseEmailField(String email) {
@@ -91,5 +76,15 @@ public class User {
     public String getEmail() {
         return email;
     }
+    public Manager getManagerOf() {
+        return managerOf;
+    }
 
+    public Invitee getInvitedTo() {
+        return invitedTo;
+    }
+
+    public Guest getGuestIn() {
+        return guestIn;
+    }
 }
