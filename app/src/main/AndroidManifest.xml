@@ -30,7 +30,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.RegisterActivity" />
+<<<<<<< HEAD
         <activity android:name=".Activities.EventCreationActivity" />
+=======
+        <activity android:name=".EventCreationActivity" />
+>>>>>>> 5ccdcbc4df19149d486bda5d40773cd74cd730f9
         <activity android:name=".Activities.EventInvitationActivity" />
         <activity
             android:name=".Activities.AccountActivity"
