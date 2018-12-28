@@ -18,13 +18,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private Firebase mRRef;
-    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseAuth fAuth;
     private FirebaseDatabase FBdb;
     private DatabaseReference firDatabaseUsers;
     private EditText EmailRegister;
@@ -38,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance();
         //firDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
         FBdb = FirebaseDatabase.getInstance();
         firDatabaseUsers = FBdb.getReference("Users");
@@ -75,20 +77,32 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 */
-                User userRegisteration = new User(Fullname.getText().toString(), PasswordRegister.getText().toString(), EmailRegister.getText().toString());
-                Log.i("Register activity",userRegisteration.usertoString());
-                mRRef.child("Users").child(EmailRegister.getText().toString().replace('.','|')).setValue(userRegisteration);
-                mAuth.createUserWithEmailAndPassword(EmailRegister.getText().toString(),PasswordRegister.getText().toString()).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+
+          //      user = FirebaseAuth.getInstance().getCurrentUser();
+
+                Log.i("Register activity",Fullname.getText().toString());
+
+                fAuth.createUserWithEmailAndPassword(EmailRegister.getText().toString(),PasswordRegister.getText().toString()).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Register complete!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getBaseContext(), AccountActivity.class));
+                        try {
+                            if (task.isSuccessful()) {
+                                String userUID = fAuth.getInstance().getCurrentUser().getUid();
+                                User userRegisteration = new User(Fullname.getText().toString(), EmailRegister.getText().toString());
+                                firDatabaseUsers.child(userUID).setValue(userRegisteration);
+                                Toast.makeText(RegisterActivity.this, "Register complete!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getBaseContext(), AccountActivity.class));
+                                finish();
 
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Register failed try again later!!!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Register failed try again later!!!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
                         }
                     }
+
                 });
 
             }

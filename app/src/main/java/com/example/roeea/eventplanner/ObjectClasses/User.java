@@ -12,44 +12,34 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 public class User {
     private Firebase mRRef;
     private FirebaseAuth mAuth;
     private FirebaseDatabase FBdb;
     private DatabaseReference firDatabaseUsers;
     private String username;
-    private String password;
     private String email;
+    private Manager managerOf;
+    private Invitee invitedTo;
+    private Guest guestIn;
 
     public User() {
         firDatabaseUsers = FirebaseDatabase.getInstance().getReference();
     }
 
     public User(String username,
-                String password,
                 String email) {
         this.username = username;
-        this.password = password;
         this.email = email;
+        this.managerOf = new Manager();
+        this.invitedTo = new Invitee();
+        this.guestIn = new Guest();
     }
 
-
-    public String usertoString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
-    public String ConvertEmailToFireBaseEmailField() {
-        return User.ConvertEmailToFireBaseEmailField(this.email);
-    }
-
-
-
-    public User getUserByEmail(String email, final getUser u) {
-        firDatabaseUsers.child("Users").child(email).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+    public User getUserByUID(String UID, final get<User> u) {
+        firDatabaseUsers.child("Users").child(UID).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
                 User user = new User();
@@ -62,14 +52,7 @@ public class User {
 
             }
         });
-
-
-
-
-
-
         return null;
-
     }
 
     public static String ConvertEmailToFireBaseEmailField(String email) {
@@ -82,10 +65,6 @@ public class User {
         this.username = username;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -94,12 +73,18 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getEmail() {
         return email;
     }
+    public Manager getManagerOf() {
+        return managerOf;
+    }
 
+    public Invitee getInvitedTo() {
+        return invitedTo;
+    }
+
+    public Guest getGuestIn() {
+        return guestIn;
+    }
 }

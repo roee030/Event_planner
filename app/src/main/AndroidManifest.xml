@@ -15,9 +15,27 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Links that begin with "https://sites.google.com/view/event-planner-ariel” will open this activity -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sites.google.com"
+                    android:pathPrefix="/view/event-planner-ariel"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
-        <activity android:name=".Activities.AccountActivity" />
-        <activity android:name=".Activities.RegisterActivity"></activity>
+        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.EventCreationActivity" />
+        <activity android:name=".Activities.EventInvitationActivity" />
+        <activity
+            android:name=".Activities.AccountActivity"
+            android:label="@string/title_activity_account"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

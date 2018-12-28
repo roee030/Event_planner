@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "1020211111559-6qp3qs4c3qi0dr8bfrlqc86k1ugk8bte.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.roeea.eventplanner",
+            "certificate_hash": "9a687d0e0a949624422baf4dade74814cea74991"
+          }
+        },
+        {
           "client_id": "1020211111559-46gj3fitqurflikq56cqflq8m065aicq.apps.googleusercontent.com",
           "client_type": 3
         }
