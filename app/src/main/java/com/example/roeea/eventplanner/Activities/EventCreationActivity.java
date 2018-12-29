@@ -3,8 +3,6 @@ package com.example.roeea.eventplanner.Activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +18,6 @@ import android.widget.TimePicker;
 
 import com.example.roeea.eventplanner.DatePickerFragment;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
-import com.example.roeea.eventplanner.ObjectClasses.Guest;
-import com.example.roeea.eventplanner.ObjectClasses.Invitee;
 import com.example.roeea.eventplanner.ObjectClasses.Manager;
 import com.example.roeea.eventplanner.ObjectClasses.Product;
 import com.example.roeea.eventplanner.ObjectClasses.User;
@@ -29,22 +25,14 @@ import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
 import com.example.roeea.eventplanner.dialog_of_product;
-import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 
 public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, dialog_of_product.DialogLisnnerforproducts {
     private EditText eventName;
@@ -112,7 +100,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
             public void onClick(View v) {
                 String eventID = fEventRef.push().getKey();
                 addEventIDToUser(eventID);
-                createNewEvent(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
+                addEventToFireBase(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
                         eventDetails.getText().toString(), productsArrayList);
 
@@ -137,8 +125,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
     }
 
-    private void createNewEvent(String eventID, String eventName, String eventLoc, String eventDate,
-                                String eventTime, String eventDetails, ArrayList<Product> productsArrayList) {
+    private void addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
+                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList) {
         Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList);
         fbdatabase.getReference().child("Events").child(eventID).setValue(event);
     }
