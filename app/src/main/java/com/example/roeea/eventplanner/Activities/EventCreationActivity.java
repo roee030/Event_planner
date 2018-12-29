@@ -86,8 +86,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        eventDate = (EditText)findViewById(R.id.eventDate);
-        eventDate.setText(hourOfDay+":"+minute,TextView.BufferType.EDITABLE);
+        eventTimeEditText = (EditText)findViewById(R.id.eventDate);
+        eventTimeEditText.setText(hourOfDay+":"+minute,TextView.BufferType.EDITABLE);
     }
 
     @Override
