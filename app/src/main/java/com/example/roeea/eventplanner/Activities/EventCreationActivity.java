@@ -1,67 +1,42 @@
 package com.example.roeea.eventplanner.Activities;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
-import android.service.autofill.UserData;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.DatePickerFragment;
-import com.example.roeea.eventplanner.ObjectClasses.Event;
-import com.example.roeea.eventplanner.ObjectClasses.Product;
-import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
 import com.example.roeea.eventplanner.dialog_of_product;
-import com.firebase.client.Firebase;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-
-import com.example.roeea.eventplanner.R;
 
 public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener , DatePickerDialog.OnDateSetListener ,dialog_of_product.DialogLisnnerforproducts {
     private EditText eventName;
     private EditText eventDetails;
+    private EditText eventTimeEditText;
     private EditText eventDate;
-    private EditText eventLOC;
     private EditText eventProduct;
 
     private Button addNewEventButton;
 
+    private Time eventTime;
+
     ListView listOfProducts = null;
     private ArrayList<String>productsArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +44,12 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         //layout
         eventName = (EditText) findViewById(R.id.eventName);
         eventDetails = (EditText)findViewById(R.id.event_about_input);
-        eventDate = (EditText)findViewById(R.id.eventDate);
-        eventLOC = (EditText) findViewById(R.id.eventLOC);
+        eventTimeEditText = (EditText)findViewById(R.id.eventDate);
+        eventDate = (EditText) findViewById(R.id.eventLOC);
         eventProduct = (EditText) findViewById((R.id.eventProduct));
+
+        eventTime = (Time) eventTimeEditText.getText();
+
 
         //product array setting
     //    eventProductList = new ArrayList<Product>();
@@ -83,12 +61,12 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog();
+              //  openTimeDialog();
             }
         });
 
 
-        eventDate.setOnClickListener(new View.OnClickListener() {
+        eventTimeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment timePicker =new TimePickerFragment();
@@ -96,7 +74,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
             }
         });
-        eventLOC.setOnClickListener(new View.OnClickListener() {
+        eventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
@@ -119,11 +97,11 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         c.set(Calendar.MONTH,month);
         c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        eventLOC = (EditText) findViewById(R.id.eventLOC);
-        eventLOC.setText(currentDateString,TextView.BufferType.EDITABLE);
+        eventDate = (EditText) findViewById(R.id.eventLOC);
+        eventDate.setText(currentDateString,TextView.BufferType.EDITABLE);
     }
 
-    public void openDialog()
+    public void openTimeDialog()
     {
         dialog_of_product dialog = new dialog_of_product();
         dialog.show(getSupportFragmentManager(),"Example");
