@@ -115,12 +115,8 @@ public class AccountActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
+
                 startActivity(new Intent(AccountActivity.this,EventCreationActivity.class));
-=======
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
->>>>>>> 5ccdcbc4df19149d486bda5d40773cd74cd730f9
             }
         });
 
