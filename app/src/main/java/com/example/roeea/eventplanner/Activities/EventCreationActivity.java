@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,12 +19,15 @@ import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
 import com.example.roeea.eventplanner.dialog_of_product;
 
-import java.sql.Time;
+
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
-public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener , DatePickerDialog.OnDateSetListener ,dialog_of_product.DialogLisnnerforproducts {
+public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, dialog_of_product.DialogLisnnerforproducts {
     private EditText eventName;
     private EditText eventDetails;
     private EditText eventTimeEditText;
@@ -35,7 +39,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     private Time eventTime;
 
     ListView listOfProducts = null;
-    private ArrayList<String>productsArrayList;
+    private ArrayList<String> productsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,25 +47,23 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         setContentView(R.layout.activity_event_creation);
         //layout
         eventName = (EditText) findViewById(R.id.eventName);
-        eventDetails = (EditText)findViewById(R.id.event_about_input);
-        eventTimeEditText = (EditText)findViewById(R.id.eventDate);
-        eventDate = (EditText) findViewById(R.id.eventLOC);
+        eventDetails = (EditText) findViewById(R.id.event_about_input);
+        eventTimeEditText = (EditText) findViewById(R.id.eventTime);
+        eventDate = (EditText) findViewById(R.id.eventDate);
         eventProduct = (EditText) findViewById((R.id.eventProduct));
-
-        eventTime = (Time) eventTimeEditText.getText();
 
 
         //product array setting
-    //    eventProductList = new ArrayList<Product>();
-    //    productAdapter = new ArrayAdapter<User>(this,R.layout.activity_event_creation,R.id.);
-        productsArrayList= new ArrayList<>();
+        //    eventProductList = new ArrayList<Product>();
+        //    productAdapter = new ArrayAdapter<User>(this,R.layout.activity_event_creation,R.id.);
+        productsArrayList = new ArrayList<>();
 
         ///Dialog product list
 
         eventProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  openTimeDialog();
+                openTimeDialog();
             }
         });
 
@@ -69,8 +71,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventTimeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePicker =new TimePickerFragment();
-                timePicker.showNow(getSupportFragmentManager(),"Time picker");
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.showNow(getSupportFragmentManager(), "Time picker");
 
             }
         });
@@ -78,33 +80,34 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
             @Override
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
-                datePicker.showNow(getSupportFragmentManager(),"Date picker");
+                datePicker.showNow(getSupportFragmentManager(), "Date picker");
             }
         });
 
 
     }
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        eventTimeEditText = (EditText)findViewById(R.id.eventDate);
-        eventTimeEditText.setText(hourOfDay+":"+minute,TextView.BufferType.EDITABLE);
+        eventTimeEditText = (EditText) findViewById(R.id.eventTime);
+        eventTimeEditText.setText(hourOfDay + ":" + minute, TextView.BufferType.EDITABLE);
+
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR,year);
-        c.set(Calendar.MONTH,month);
-        c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        eventDate = (EditText) findViewById(R.id.eventLOC);
-        eventDate.setText(currentDateString,TextView.BufferType.EDITABLE);
+        eventDate = (EditText) findViewById(R.id.eventDate);
+        eventDate.setText(currentDateString, TextView.BufferType.EDITABLE);
     }
 
-    public void openTimeDialog()
-    {
+    public void openTimeDialog() {
         dialog_of_product dialog = new dialog_of_product();
-        dialog.show(getSupportFragmentManager(),"Example");
+        dialog.show(getSupportFragmentManager(), "Example");
     }
 
     @Override

@@ -42,15 +42,15 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/eventLOC"
+            android:id="@+id/eventDate"
             android:hint="Double click here to set Date"/>
 
         <EditText
-            android:id="@+id/eventDate"
+            android:id="@+id/eventTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Double click to set Time"
-            android:inputType="time" />
+            android:inputType="none" />
 
 
 
