@@ -2,10 +2,14 @@ package com.example.roeea.eventplanner.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,9 +19,23 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.roeea.eventplanner.DatePickerFragment;
+import com.example.roeea.eventplanner.ObjectClasses.Event;
+import com.example.roeea.eventplanner.ObjectClasses.Guest;
+import com.example.roeea.eventplanner.ObjectClasses.Invitee;
+import com.example.roeea.eventplanner.ObjectClasses.Manager;
+import com.example.roeea.eventplanner.ObjectClasses.Product;
+import com.example.roeea.eventplanner.ObjectClasses.User;
+import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
 import com.example.roeea.eventplanner.dialog_of_product;
+import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.text.DateFormat;
@@ -26,20 +44,27 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, dialog_of_product.DialogLisnnerforproducts {
     private EditText eventName;
     private EditText eventDetails;
+    private EditText eventLoc;
     private EditText eventTimeEditText;
     private EditText eventDate;
     private EditText eventProduct;
+
+    private FirebaseDatabase fbdatabase  = FirebaseDatabase.getInstance();
+    private DatabaseReference fEventRef = fbdatabase.getReference().child("Events");
+    private FirebaseAuth fAuth = FirebaseAuth.getInstance();
 
     private Button addNewEventButton;
 
     private Time eventTime;
 
     ListView listOfProducts = null;
-    private ArrayList<String> productsArrayList;
+    private ArrayList<Product> productsArrayList;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +72,23 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         setContentView(R.layout.activity_event_creation);
         //layout
         eventName = (EditText) findViewById(R.id.eventName);
+        eventLoc = (EditText) findViewById(R.id.eventLoc);
         eventDetails = (EditText) findViewById(R.id.event_about_input);
         eventTimeEditText = (EditText) findViewById(R.id.eventTime);
         eventDate = (EditText) findViewById(R.id.eventDate);
         eventProduct = (EditText) findViewById((R.id.eventProduct));
+
+        addNewEventButton = (Button)findViewById(R.id.submitbtn);
+
+        //Firebase setting
+
+        if(fAuth.getCurrentUser()==null)
+        {
+            Intent loginIntent = new Intent(this, MainActivity.class);
+            startActivity(loginIntent);
+            finish();
+        }
+
 
 
         //product array setting
@@ -66,8 +104,20 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                 openTimeDialog();
             }
         });
+        /*
+        //submit button to create a new event and add to DB
+         */
+        addNewEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String eventID = fEventRef.push().getKey();
+                addEventIDToUser(eventID);
+                createNewEvent(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
+                        eventDate.getText().toString(), eventTimeEditText.getText().toString(),
+                        eventDetails.getText().toString(), productsArrayList);
 
-
+            }
+        });
         eventTimeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +133,50 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                 datePicker.showNow(getSupportFragmentManager(), "Date picker");
             }
         });
+
+
+    }
+
+    private void createNewEvent(String eventID, String eventName, String eventLoc, String eventDate,
+                                String eventTime, String eventDetails, ArrayList<Product> productsArrayList) {
+        Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList);
+        fbdatabase.getReference().child("Events").child(eventID).setValue(event);
+    }
+
+    private void addEventIDToUser(final String eventID) {
+        String userID = fAuth.getCurrentUser().getUid();
+        final DatabaseReference userRef = fbdatabase.getReference().child("Users").child(userID);
+        user = new User();
+
+        user.getUserByUID(userID, new get<User>() {
+            @Override
+            public void callBack(User user) {
+                EventCreationActivity.this.user=user;
+                Manager usermanagerof = user.getManagerOf();
+                if(user.getManagerOf() == null) Log.w("EventCreation", "usermanagerof is null");
+                usermanagerof.addEventtoList(eventID);
+                userRef.child("managerOf").setValue(usermanagerof);
+
+            }
+        });
+//        userRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//
+//
+////
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.e("EventCreationActivity ", "Failed to read value.", error.toException());
+//            }
+//        });
+
+
 
 
     }
@@ -117,7 +211,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
     @Override
     public void applyText(String product) {
-        productsArrayList.add(product);
+        Product p = new Product(product,1);
+        productsArrayList.add(p);
         eventProduct.setText(productsArrayList.toString());
     }
 
@@ -125,4 +220,5 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     public void clearList() {
         productsArrayList.clear();
     }
+
 }

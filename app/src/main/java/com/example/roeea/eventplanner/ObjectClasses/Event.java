@@ -1,28 +1,40 @@
 package com.example.roeea.eventplanner.ObjectClasses;
 
-import android.location.Location;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
     private String eventID;
     private String name;
-    private Date date;
-    private Location loc;
+    private String date;
+    private String time;
+    private String loc;
+    private String details;
     private List<User> mannager;
     private List<User> guests;
-    private List<User> Invated;
-    private List<Product> Products;
+    private List<User> invited;
+    private ArrayList<Product> products;
     private DatabaseReference fireDatabaseT;
 
     public Event() {
+    }
+
+    public Event(String eventID, String eventName, String eventLoc, String eventDate,
+                 String eventTime, String eventDetails, ArrayList<Product> productsArrayList) {
+
+        this.eventID = eventID;
+        name = eventName;
+        date = eventDate;
+        loc = eventLoc;
+        time = eventTime;
+        details = eventDetails;
+        products = productsArrayList;
     }
 
 
@@ -52,20 +64,9 @@ public class Event {
                 ", loc = " + loc +
                 ", managers = " + mannager +
                 ", guests=" + guests +
-                ", Invated = " + Invated +
-                ", Products = " + Products +
+                ", invited = " + invited +
+                ", products = " + products +
                 '}';
-    }
-
-    public Event(String eID, String nm, Date dt, Location lc, List<User> mannager, List<User> gsts, List<User> invi, List<Product> pru) {
-        this.eventID = eID;
-        this.name = nm;
-        this.loc = lc;
-        this.date = dt;
-        this.mannager = mannager;
-        this.guests = gsts;
-        this.Invated = invi;
-        this.Products = pru;
     }
 
     public String  getEventID() {
@@ -84,19 +85,19 @@ public class Event {
         this.name = name;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Location getLoc() {
+    public String getLoc() {
         return loc;
     }
 
-    public void setLoc(Location loc) {
+    public void setLoc(String loc) {
         this.loc = loc;
     }
 
@@ -116,19 +117,19 @@ public class Event {
         this.guests = guests;
     }
 
-    public List<User> getInvated() {
-        return Invated;
+    public List<User> getInvited() {
+        return invited;
     }
 
-    public void setInvated(List<User> invated) {
-        Invated = invated;
+    public void setInvited(List<User> invited) {
+        this.invited = invited;
     }
 
-    public List<Product> getProducts() {
-        return Products;
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 
-    public void setProducts(List<Product> products) {
-        Products = products;
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 }

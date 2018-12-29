@@ -1,5 +1,6 @@
 package com.example.roeea.eventplanner.ObjectClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Guest {
@@ -7,6 +8,8 @@ public class Guest {
     private List<String>Products;
 
     public Guest() {
+        events = new ArrayList<>();
+        Products = new ArrayList<>();
     }
 
     public Guest(List<String> events, List<String> products) {

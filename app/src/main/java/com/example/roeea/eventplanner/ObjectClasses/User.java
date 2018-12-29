@@ -27,7 +27,11 @@ public class User {
 
     public User() {
         firDatabaseUsers = FirebaseDatabase.getInstance().getReference();
+        managerOf = new Manager();
+        invitedTo = new Invitee();
+        guestIn = new Guest();
     }
+
 
     public User(String username,
                 String email) {
@@ -39,12 +43,13 @@ public class User {
     }
 
     public User getUserByUID(String UID, final get<User> u) {
-        firDatabaseUsers.child("Users").child(UID).addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+        firDatabaseUsers.child("Users").child(UID).addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
-                User user = new User();
-                user = dataSnapshot.getValue(User.class);
-                u.callBack(user);
+
+                    User user = new User();
+                    user = dataSnapshot.getValue(User.class);
+                    u.callBack(user);
             }
 
             @Override
@@ -52,6 +57,9 @@ public class User {
 
             }
         });
+
+
+
         return null;
     }
 
@@ -59,6 +67,18 @@ public class User {
         String st = new String(email);
         st.replace('.', '|');
         return st;
+    }
+
+    public void setManagerOf(Manager managerOf) {
+        this.managerOf = managerOf;
+    }
+
+    public void setInvitedTo(Invitee invitedTo) {
+        this.invitedTo = invitedTo;
+    }
+
+    public void setGuestIn(Guest guestIn) {
+        this.guestIn = guestIn;
     }
 
     public void setUsername(String username) {

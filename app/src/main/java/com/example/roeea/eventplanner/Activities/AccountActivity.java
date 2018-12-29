@@ -3,7 +3,6 @@ package com.example.roeea.eventplanner.Activities;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -61,7 +60,7 @@ public class AccountActivity extends AppCompatActivity {
     private User user;
     private ArrayList<List<String>> lists = new ArrayList<List<String>>();
     private String email;
-    private static Event tempEvent;
+    private static Event tempEvent = new Event();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -206,9 +205,14 @@ public class AccountActivity extends AppCompatActivity {
          */
         public static PlaceholderFragment newInstance(int sectionNumber, List<List<String>> lists) {
             MangerGuestInvitee_Lists = lists;
+            if(MangerGuestInvitee_Lists==null)
+            {
+                Log.e("AccountActivity","MangerGuestInvitee_Lists is null");
+            }
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putStringArrayList("lists", (ArrayList<String>) lists.get(sectionNumber));
             fragment.setArguments(args);
             return fragment;
         }
@@ -220,7 +224,12 @@ public class AccountActivity extends AppCompatActivity {
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ListView listView = (ListView) rootView.findViewById(R.id.accountListView);
             int index = getArguments().getInt(ARG_SECTION_NUMBER) - 1;
-            final List<String> result = MangerGuestInvitee_Lists.get(index);
+
+            final List<String> result = getArguments().getStringArrayList("lists");
+            if(result==null)
+            {
+                Log.e("AccountActivity","result is FUCKING null");
+            }
             ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, result);
             listView.setAdapter(listAdapter);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
@@ -249,7 +258,11 @@ public class AccountActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
+            // Return a PlaceholderFragment (defined as a static inner class below)
+            if(lists==null)
+            {
+                Log.e("AccountActivity","listt is null");
+            }
             return PlaceholderFragment.newInstance(position + 1, lists);
         }
 
@@ -282,6 +295,7 @@ public class AccountActivity extends AppCompatActivity {
     }
     private static void getManagersName(List<String> keys) {
         for (String key : keys) {
+
             tempEvent.getEventByKey(key, new get<Event>() {
                 @Override
                 public void callBack(Event user) {

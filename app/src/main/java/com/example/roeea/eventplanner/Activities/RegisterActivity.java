@@ -90,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 String userUID = fAuth.getInstance().getCurrentUser().getUid();
                                 User userRegisteration = new User(Fullname.getText().toString(), EmailRegister.getText().toString());
                                 firDatabaseUsers.child(userUID).setValue(userRegisteration);
+                                userRegisteration.getManagerOf();
                                 Toast.makeText(RegisterActivity.this, "Register complete!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getBaseContext(), AccountActivity.class));
                                 finish();

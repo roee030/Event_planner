@@ -15,6 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Manager {
+    public Manager() {
+        events = new ArrayList<>();
+    }
+
+    public void addEventtoList(String eventID) {
+        events.add(eventID);
+    }
+
     private List<String> events;
 
     public List<String> getEvents() {
