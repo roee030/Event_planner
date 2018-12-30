@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.User;
+import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,12 +24,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Observable;
+import java.util.Observer;
+
 public class MainActivity extends AppCompatActivity {
     private Button login;
     private Button RegisterButton;
     private EditText Email;
     private EditText Password;
     private FirebaseAuth mAuth;
+    private User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,13 @@ public class MainActivity extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.PasswordField);
         RegisterButton = (Button) findViewById(R.id.MoveToRegisterationActivity);
         login = (Button) findViewById(R.id.LoginBt);
-
+        if(mAuth.getUid() != null)
+            user.getUserByUID(mAuth.getUid(), new get<User>() {
+                @Override
+                public void callBack(User user) {
+                    MainActivity.this.user = user;
+                }
+            });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +99,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            startAccountActivity();
+            this.user.getUserByUID(currentUser.getUid(), new get<User>() {
+                @Override
+                public void callBack(User user) {
+                    Log.i("Main Activity", user.getUsername());
+                    UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(user);
+                    startAccountActivity();
+                }
+            });
         }
     }
 
@@ -129,8 +147,15 @@ public class MainActivity extends AppCompatActivity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 } else {
-                    UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(new User());
-                    startAccountActivity();
+                    user.getUserByUID(mAuth.getUid(), new get<User>() {
+                        @Override
+                        public void callBack(User user) {
+                            MainActivity.this.user = user;
+                            Log.i("Main Activity", user.toString());
+                            UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(MainActivity.this.user);
+                            startAccountActivity();
+                        }
+                    });
                 }
             }
         });

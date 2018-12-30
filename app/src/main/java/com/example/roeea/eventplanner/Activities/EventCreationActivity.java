@@ -103,6 +103,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                 addEventToFireBase(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
                         eventDetails.getText().toString(), productsArrayList);
+                Intent intent = new Intent(getBaseContext(), AccountActivity.class);
+                startActivity(intent);
 
             }
         });
