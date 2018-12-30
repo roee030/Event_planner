@@ -23,6 +23,11 @@ public class Manager {
         events.add(eventID);
     }
 
+    @Override
+    public String toString() {
+        return events.toString();
+    }
+
     private List<String> events;
 
     public List<String> getEvents() {

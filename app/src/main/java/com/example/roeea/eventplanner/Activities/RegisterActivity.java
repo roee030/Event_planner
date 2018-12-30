@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.R;
 import com.firebase.client.Firebase;
@@ -90,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 String userUID = fAuth.getInstance().getCurrentUser().getUid();
                                 User userRegisteration = new User(Fullname.getText().toString(), EmailRegister.getText().toString());
                                 firDatabaseUsers.child(userUID).setValue(userRegisteration);
-                                userRegisteration.getManagerOf();
+                                UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(userRegisteration);
                                 Toast.makeText(RegisterActivity.this, "Register complete!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getBaseContext(), AccountActivity.class));
                                 finish();

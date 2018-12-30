@@ -1,8 +1,15 @@
 package com.example.roeea.eventplanner.Activities;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -14,6 +21,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.Guest;
 import com.example.roeea.eventplanner.ObjectClasses.Invitee;
@@ -22,6 +30,7 @@ import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.firebase.client.Firebase;
+import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,10 +52,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private static final String TAG = "home";
+    private static final String TAG = "Account Activity";
     private ListView listView;
     private Firebase mRRef;
     private FirebaseUser fUser;
@@ -61,6 +72,7 @@ public class AccountActivity extends AppCompatActivity {
     private ArrayList<List<String>> lists = new ArrayList<List<String>>();
     private String email;
     private static Event tempEvent = new Event();
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -127,39 +139,6 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(loginIntent);
             finish();
         }
-        FBdb = FirebaseDatabase.getInstance();
-
-        String userUID = fAuth.getInstance().getCurrentUser().getUid();
-        firDatabaseUsers = root.child("Users").child(userUID);
-
-        firDatabaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                user = dataSnapshot.getValue(User.class);
-                if (user == null)
-                    Log.e("Account Activity", "User is null");
-                Guest g;
-                if ( (g = user.getGuestIn()) != null)
-                    AccountActivity.getGuestsName(user.getGuestIn().getEvents());
-                Invitee i;
-                if ( (i = user.getInvitedTo()) != null)
-                    AccountActivity.getInvitesName(user.getInvitedTo().getInviteeEvent());
-                Manager m;
-                if ( (m = user.getManagerOf()) != null)
-                AccountActivity.getManagersName(user.getManagerOf().getEvents());
-                lists.set(0,MangerOf_Name);
-                lists.set(1,guestIn_Name);
-                lists.set(2,InvitedTo_Name);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read value.", error.toException());
-            }
-        });
     }
 
 
@@ -188,31 +167,29 @@ public class AccountActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements Observer {
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private static List<List<String>> MangerGuestInvitee_Lists;
+        private View rootView;
+        private static PlaceholderFragment fragment;
+        private ListView listView;
+        private TextView textView;
 
         public PlaceholderFragment() {
+            UserDataHolder.getUserDataHolderInstance().AddObserver(this);
         }
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, List<List<String>> lists) {
-            MangerGuestInvitee_Lists = lists;
-            if(MangerGuestInvitee_Lists==null)
-            {
-                Log.e("AccountActivity","MangerGuestInvitee_Lists is null");
-            }
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            args.putStringArrayList("lists", (ArrayList<String>) lists.get(sectionNumber));
             fragment.setArguments(args);
             return fragment;
         }
@@ -220,19 +197,31 @@ public class AccountActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_account, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            ListView listView = (ListView) rootView.findViewById(R.id.accountListView);
-            int index = getArguments().getInt(ARG_SECTION_NUMBER) - 1;
-
-            final List<String> result = getArguments().getStringArrayList("lists");
-            if(result==null)
+            rootView = inflater.inflate(R.layout.fragment_account, container, false);
+            textView = (TextView) rootView.findViewById(R.id.section_label);
+            listView = (ListView) rootView.findViewById(R.id.accountListView);
+            UserDataHolder u = UserDataHolder.getUserDataHolderInstance();
+            int index = getArguments().getInt(ARG_SECTION_NUMBER);
+            List<String> names = new ArrayList<>();
+            switch (index)
             {
-                Log.e("AccountActivity","result is FUCKING null");
+                case 0:
+                    names = u.getManagerEventsName();
+                    break;
+                case 1:
+                    names = u.getGuestEventsName();
+                    break;
+                case 2:
+                    names = u.getInvitedEventsName();
+                    break;
+
             }
-            ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, result);
+            ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
+            textView.setText(
+                    "Hello " +
+                            u.getAuthenticatedUser().getUsername() +
+                            " From section: " + (index + 1));
             listView.setAdapter(listAdapter);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,6 +233,38 @@ public class AccountActivity extends AppCompatActivity {
             return rootView;
 
         }
+
+        @Override
+        public void update(Observable o, Object arg) {
+            Toast.makeText(getContext(),"Update", Toast.LENGTH_LONG).show();
+            UserDataHolder u = (UserDataHolder)o;
+            int index = getArguments().getInt(ARG_SECTION_NUMBER) - 1;
+            List<String> names = new ArrayList<>();
+            switch (index)
+            {
+                case 0:
+                    names = u.getManagerEventsName();
+                    break;
+                case 1:
+                    names = u.getGuestEventsName();
+                    break;
+                case 2:
+                    names = u.getInvitedEventsName();
+                    break;
+
+            }
+            ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
+            textView.setText(
+                    "Hello " +
+                            u.getAuthenticatedUser().getUsername() +
+                            " From section: " + (index + 1));
+            listView.setAdapter(listAdapter);
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.constraintLayout, fragment);
+            transaction.commit();
+            getChildFragmentManager().executePendingTransactions();
+        }
+
     }
 
     /**
@@ -259,17 +280,18 @@ public class AccountActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below)
-            if(lists==null)
-            {
-                Log.e("AccountActivity","listt is null");
-            }
-            return PlaceholderFragment.newInstance(position + 1, lists);
+            return PlaceholderFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 3;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 
@@ -287,19 +309,18 @@ public class AccountActivity extends AppCompatActivity {
         for (String key : keys) {
             tempEvent.getEventByKey(key, new get<Event>() {
                 @Override
-                public void callBack(Event user) {
-                    guestIn_Name.add(tempEvent.getName());
+                public void callBack(Event event) {
+                    guestIn_Name.add(event.getName());
                 }
             });
         }
     }
     private static void getManagersName(List<String> keys) {
         for (String key : keys) {
-
             tempEvent.getEventByKey(key, new get<Event>() {
                 @Override
-                public void callBack(Event user) {
-                    MangerOf_Name.add(tempEvent.getName());
+                public void callBack(Event event) {
+                    MangerOf_Name.add(event.getName());
                 }
             });
         }
@@ -308,8 +329,8 @@ public class AccountActivity extends AppCompatActivity {
         for (String key : keys) {
             tempEvent.getEventByKey(key, new get<Event>() {
                 @Override
-                public void callBack(Event user) {
-                    InvitedTo_Name.add(tempEvent.getName());
+                public void callBack(Event event) {
+                    InvitedTo_Name.add(event.getName());
                 }
             });
         }
