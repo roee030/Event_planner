@@ -195,6 +195,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     public void openTimeDialog() {
         dialog_of_product dialog = new dialog_of_product();
         dialog.show(getSupportFragmentManager(), "Example");
+
     }
 
     @Override
