@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void callBack(User user) {
                     UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(user);
-                    startAccountActivity();
                 }
             });
+            startAccountActivity();
         }
     }
 

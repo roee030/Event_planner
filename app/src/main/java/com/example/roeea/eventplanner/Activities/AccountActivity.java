@@ -1,6 +1,8 @@
 package com.example.roeea.eventplanner.Activities;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -50,6 +52,7 @@ public class AccountActivity extends AppCompatActivity {
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     private ArrayList<List<String>> lists = new ArrayList<List<String>>();
     private static Event tempEvent = new Event();
+    private AccountViewModel accountViewModel;
 
 
     /**
@@ -69,8 +72,8 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-
-
+        accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
+        accountViewModel.loadUseer();
 
         int numberOfTabs = 3;
         String eventID = getIntent().getStringExtra("eventID");
@@ -158,8 +161,8 @@ public class AccountActivity extends AppCompatActivity {
         private TextView textView;
         private FirebaseAuth mAuth;
         private User user = new User();
-        private AccountViewModel accountViewModel = new AccountViewModel();
-        private FragmentViewModel fragmentViewModel = new FragmentViewModel();
+        private AccountViewModel accountViewModel;
+        private FragmentViewModel fragmentViewModel;
 
         public PlaceholderFragment() {
         }
@@ -188,7 +191,8 @@ public class AccountActivity extends AppCompatActivity {
             textView = (TextView) rootView.findViewById(R.id.section_label);
             listView = (ListView) rootView.findViewById(R.id.accountListView);
             final int index = getArguments().getInt(ARG_SECTION_NUMBER);
-            AccountViewModel accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
+            accountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+            fragmentViewModel = ViewModelProviders.of(this).get(FragmentViewModel.class);
             User user = UserDataHolder.getUserDataHolderInstance().getAuthenticatedUser();
             final ArrayList<List<String>> lists = new ArrayList<>();
             accountViewModel.getUser().observe(this, new Observer<User>() {
