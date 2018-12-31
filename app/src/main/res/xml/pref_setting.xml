@@ -11,11 +11,7 @@
     android:summary="edit your name by click here"
         android:id="@+id/changename"
     />
-    <EditTextPreference
-        android:title="Change User Email"
-        android:key="changeUserEmail"
-        android:summary="edit your mail by click here"
-        />
+
     <EditTextPreference
         android:title="Change User password"
         android:key="changeUserPassword"
@@ -26,5 +22,9 @@
         android:key="deleteUser"
         android:summary="delete your user for good"
         />
-
+    <EditTextPreference
+        android:title="Contact us"
+        android:key="contact"
+        android:summary="send us an Email"
+        />
 </PreferenceScreen>

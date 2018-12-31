@@ -14,6 +14,7 @@ import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.PreferenceSetting;
 import com.example.roeea.eventplanner.R;
+import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,27 +29,33 @@ public class UserSetting extends AppCompatActivity implements PreferenceSetting.
     private EditTextPreference deleteUser;
     //Firebase
     private FirebaseAuth FBAuth;
+    private Firebase FB;
     private FirebaseDatabase FBDatabase;
     private DatabaseReference DBReference;
     SharedPreferences.OnSharedPreferenceChangeListener prefListener;
     private EditTextPreference editTextPreference;
-    User user1= new User ();
-    @Override
-    public void changeUserNameInDB(final String name) {
-        FBAuth = FirebaseAuth.getInstance();
-        FBDatabase = FirebaseDatabase.getInstance();
-        DBReference = FBDatabase.getReference();
-        String userid = FBAuth.getCurrentUser().getUid();
+    User user1 = new User ();
+    private String nameToReplace;
+    private String uid;
 
-        user1 = user1.getUserByUID(userid, new get<User>() {
+
+
+    @Override
+    public void changeUserNameInDB(final String name, final String uid) {
+
+        user1 = user1.getUserByUID(uid, new get<User>() {
             @Override
             public void callBack(User user) {
-                Toast.makeText(UserSetting.this,user1.toString(),Toast.LENGTH_SHORT).show();
+                FirebaseDatabase FBdb = FirebaseDatabase.getInstance();
                 user1= user;
-                String userid = FBAuth.getCurrentUser().getUid();
-                FBDatabase.getReference().child("Users").child(userid).child("username").setValue(name);
-                user1.setUsername(name);
+                String nameforchecking = name;
+                DBReference.child("Users").child(uid).child("username").setValue(nameforchecking);
+                Toast.makeText(UserSetting.this,"Your name changed successfully to: "+ name, Toast.LENGTH_SHORT).show();
+                //user1.setUsername(name);
+                return;
             }
+
+
         });
     }
 
@@ -89,13 +96,22 @@ public class UserSetting extends AppCompatActivity implements PreferenceSetting.
                                                           String key) {
                         if (key.equals("changeUserName")) {
                           SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                          String s = SP.getString("changeUserName","roee");
-                          Toast.makeText(UserSetting.this,s,Toast.LENGTH_SHORT).show();
-                        //  changeUserNameInDB(s);
+                          nameToReplace = SP.getString("changeUserName","roee");
+                          uid = FBAuth.getUid();
+                          changeUserNameInDB(nameToReplace,uid);
+
                         }
+                        if (key.equals("changeUserPassword"))
+                        {
+                            //add fun to change password via FBAUTH
+                        }
+
                     }
+
                 };
+
         SP.registerOnSharedPreferenceChangeListener(prefListener);
+
     }
 
     public static String getPref(String key, Context context) {

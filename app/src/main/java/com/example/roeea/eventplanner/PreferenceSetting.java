@@ -32,7 +32,8 @@ public class PreferenceSetting extends PreferenceActivity {
     }
     public interface settingLisnner {
 
-        void changeUserNameInDB(String name);
+        void changeUserNameInDB(String name,String uid);
+       // void changeUserPassword(String pass,String uid);
     }
 
 }
