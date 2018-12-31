@@ -1,20 +1,13 @@
-package com.example.roeea.eventplanner.DataHolders;
+package com.example.roeea.eventplanner.ViewModels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
-import com.example.roeea.eventplanner.Activities.AccountActivity;
-import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.google.firebase.database.FirebaseDatabase.*;
 

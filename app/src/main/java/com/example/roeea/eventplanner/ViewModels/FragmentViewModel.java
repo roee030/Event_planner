@@ -1,4 +1,4 @@
-package com.example.roeea.eventplanner.DataHolders;
+package com.example.roeea.eventplanner.ViewModels;
 
 
 import android.arch.lifecycle.LiveData;
@@ -6,10 +6,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.roeea.eventplanner.ObjectClasses.Event;
-import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentViewModel extends ViewModel

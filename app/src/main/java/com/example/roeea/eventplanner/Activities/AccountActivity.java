@@ -16,8 +16,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.roeea.eventplanner.DataHolders.AccountViewModel;
-import com.example.roeea.eventplanner.DataHolders.FragmentViewModel;
+import com.example.roeea.eventplanner.ViewModels.AccountViewModel;
+import com.example.roeea.eventplanner.ViewModels.FragmentViewModel;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
