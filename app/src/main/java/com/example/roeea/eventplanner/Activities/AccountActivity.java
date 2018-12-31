@@ -1,8 +1,6 @@
 package com.example.roeea.eventplanner.Activities;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 
 import com.example.roeea.eventplanner.DataHolders.AccountViewModel;
 import com.example.roeea.eventplanner.DataHolders.FragmentViewModel;
-import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
@@ -193,7 +190,6 @@ public class AccountActivity extends AppCompatActivity {
             final int index = getArguments().getInt(ARG_SECTION_NUMBER);
             accountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
             fragmentViewModel = ViewModelProviders.of(this).get(FragmentViewModel.class);
-            User user = UserDataHolder.getUserDataHolderInstance().getAuthenticatedUser();
             final ArrayList<List<String>> lists = new ArrayList<>();
             accountViewModel.getUser().observe(this, new Observer<User>() {
                 @Override
