@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+    <EditTextPreference
+    android:title="Change User name"
+        android:dialogTitle="changename"
+
+        android:key="changeUserName"
+    android:summary="edit your name by click here"
+        android:id="@+id/changename"
+    />
+    <EditTextPreference
+        android:title="Change User Email"
+        android:key="changeUserEmail"
+        android:summary="edit your mail by click here"
+        />
+    <EditTextPreference
+        android:title="Change User password"
+        android:key="changeUserPassword"
+        android:summary="edit your password by click here"
+        />
+    <EditTextPreference
+        android:title="Delete User"
+        android:key="deleteUser"
+        android:summary="delete your user for good"
+        />
+
+</PreferenceScreen>
