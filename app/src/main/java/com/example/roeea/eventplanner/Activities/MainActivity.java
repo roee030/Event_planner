@@ -97,12 +97,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        Log.i("Main Activity", "On start");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            Log.i("Main Activity/onStart", "Uid = " + mAuth.getUid());
             this.user.getUserByUID(currentUser.getUid(), new get<User>() {
                 @Override
                 public void callBack(User user) {
-                    Log.i("Main Activity", user.getUsername());
                     UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(user);
                     startAccountActivity();
                 }
@@ -147,11 +148,13 @@ public class MainActivity extends AppCompatActivity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 } else {
+                    Log.i("MainActivity", "auth succedded");
                     user.getUserByUID(mAuth.getUid(), new get<User>() {
                         @Override
                         public void callBack(User user) {
                             MainActivity.this.user = user;
-                            Log.i("Main Activity", user.toString());
+                            if (user == null)
+                                Log.e("MainActivity/startSign","user is null + " + mAuth.getUid());
                             UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(MainActivity.this.user);
                             startAccountActivity();
                         }

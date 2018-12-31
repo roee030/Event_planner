@@ -25,6 +25,14 @@ public class User {
     private Invitee invitedTo;
     private Guest guestIn;
 
+    public User(String username, String email, Manager managerOf, Invitee invitedTo, Guest guestIn) {
+        this.username = username;
+        this.email = email;
+        this.managerOf = managerOf;
+        this.invitedTo = invitedTo;
+        this.guestIn = guestIn;
+    }
+
     public User() {
         firDatabaseUsers = FirebaseDatabase.getInstance().getReference();
         managerOf = new Manager();

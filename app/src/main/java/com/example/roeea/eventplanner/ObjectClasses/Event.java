@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,55 @@ public class Event {
     private String time;
     private String loc;
     private String details;
-    private List<User> mannager;
-    private List<User> guests;
-    private List<User> invited;
+    private List<String> mannager;
+    private List<String> guests;
+    private List<String> invited;
     private ArrayList<Product> products;
     private DatabaseReference fireDatabaseT;
     private Event temp_event;
+    final List<Event> m_events = new ArrayList<>();
     private static final String TAG = "EVENT CLASS";
     public Event() {
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public List<String> getMannager() {
+        return mannager;
+    }
+
+    public void setMannager(List<String> mannager) {
+        this.mannager = mannager;
+    }
+
+    public List<String> getGuests() {
+        return guests;
+    }
+
+    public void setGuests(List<String> guests) {
+        this.guests = guests;
+    }
+
+    public List<String> getInvited() {
+        return invited;
+    }
+
+    public void setInvited(List<String> invited) {
+        this.invited = invited;
     }
 
     public Event(String eventID, String eventName, String eventLoc, String eventDate,
@@ -38,8 +80,35 @@ public class Event {
         time = eventTime;
         details = eventDetails;
         products = productsArrayList;
+        mannager = new ArrayList<>();
+        guests = new ArrayList<>();
+        invited = new ArrayList<>();
     }
 
+    public void getListOfEventsByKeys(final List<String> keys, final get<List<Event>> events)
+    {
+        fireDatabaseT = FirebaseDatabase.getInstance().getReference();
+        fireDatabaseT.child("Events").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot event: dataSnapshot.getChildren()) {
+                    for(String key : keys)
+                    {
+                        if (key.equals(event.getKey())) {
+                            Event.this.temp_event = event.getValue(Event.class);
+                            m_events.add(Event.this.temp_event);
+                        }
+                    }
+                    events.callBack(m_events);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     public void getEventByKey(String key, final get<Event> element)
     {
@@ -53,7 +122,6 @@ public class Event {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -101,30 +169,6 @@ public class Event {
 
     public void setLoc(String loc) {
         this.loc = loc;
-    }
-
-    public List<User> getMannager() {
-        return mannager;
-    }
-
-    public void setMannager(List<User> mannager) {
-        this.mannager = mannager;
-    }
-
-    public List<User> getGuests() {
-        return guests;
-    }
-
-    public void setGuests(List<User> guests) {
-        this.guests = guests;
-    }
-
-    public List<User> getInvited() {
-        return invited;
-    }
-
-    public void setInvited(List<User> invited) {
-        this.invited = invited;
     }
 
     public ArrayList<Product> getProducts() {

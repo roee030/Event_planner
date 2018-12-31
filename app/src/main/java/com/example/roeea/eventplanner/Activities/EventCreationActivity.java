@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, dialog_of_product.DialogLisnnerforproducts {
     private EditText eventName;
@@ -99,10 +100,12 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
             @Override
             public void onClick(View v) {
                 String eventID = fEventRef.push().getKey();
+                List<String> manager = new ArrayList<>();
+                manager.add(fAuth.getUid());
                 addEventIDToUser(eventID);
                 addEventToFireBase(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
-                        eventDetails.getText().toString(), productsArrayList);
+                        eventDetails.getText().toString(), productsArrayList, manager, new ArrayList<String>(), new ArrayList<String>());
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
 
@@ -128,7 +131,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     private void addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
-                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList) {
+                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList,
+                                    List<String> MangerUids, List<String> GuestsUids, List<String> invited) {
         Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList);
         fbdatabase.getReference().child("Events").child(eventID).setValue(event);
     }

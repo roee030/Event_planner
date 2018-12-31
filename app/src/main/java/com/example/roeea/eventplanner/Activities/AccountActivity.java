@@ -1,6 +1,10 @@
 package com.example.roeea.eventplanner.Activities;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.arch.lifecycle.ViewModelStore;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -21,6 +25,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.roeea.eventplanner.DataHolders.AccountViewModel;
+import com.example.roeea.eventplanner.DataHolders.ExtendedUser;
 import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.Guest;
@@ -58,20 +64,14 @@ import java.util.Observer;
 public class AccountActivity extends AppCompatActivity {
 
     private static final String TAG = "Account Activity";
-    private ListView listView;
-    private Firebase mRRef;
-    private FirebaseUser fUser;
     private FirebaseAuth fAuth;
-    private FirebaseDatabase FBdb;
-    private DatabaseReference firDatabaseUsers;
     private static List<String> guestIn_Name = new ArrayList<>();
     private static List<String> MangerOf_Name = new ArrayList<>();
     private static List<String> InvitedTo_Name = new ArrayList<>();
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
-    private User user;
     private ArrayList<List<String>> lists = new ArrayList<List<String>>();
-    private String email;
     private static Event tempEvent = new Event();
+    private User user = new User();
 
 
     /**
@@ -82,8 +82,6 @@ public class AccountActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -93,7 +91,6 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-
 
         int numberOfTabs = 3;
         String eventID = getIntent().getStringExtra("eventID");
@@ -106,15 +103,15 @@ public class AccountActivity extends AppCompatActivity {
                     .putExtra("eventID", eventID));
         }
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -127,7 +124,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(AccountActivity.this,EventCreationActivity.class));
+                startActivity(new Intent(AccountActivity.this, EventCreationActivity.class));
             }
         });
 
@@ -167,7 +164,7 @@ public class AccountActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment implements Observer {
+    public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -176,10 +173,11 @@ public class AccountActivity extends AppCompatActivity {
         private View rootView;
         private static PlaceholderFragment fragment;
         private ListView listView;
+        private static ArrayList<String>  keys;
         private TextView textView;
+        private FirebaseAuth mAuth;
 
         public PlaceholderFragment() {
-            UserDataHolder.getUserDataHolderInstance().AddObserver(this);
         }
 
         /**
@@ -195,33 +193,33 @@ public class AccountActivity extends AppCompatActivity {
         }
 
         @Override
+        public void onResume() {
+            super.onResume();
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_account, container, false);
             textView = (TextView) rootView.findViewById(R.id.section_label);
             listView = (ListView) rootView.findViewById(R.id.accountListView);
-            UserDataHolder u = UserDataHolder.getUserDataHolderInstance();
-            int index = getArguments().getInt(ARG_SECTION_NUMBER);
-            List<String> names = new ArrayList<>();
-            switch (index)
-            {
-                case 0:
-                    names = u.getManagerEventsName();
-                    break;
-                case 1:
-                    names = u.getGuestEventsName();
-                    break;
-                case 2:
-                    names = u.getInvitedEventsName();
-                    break;
-
-            }
-            ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
-            textView.setText(
-                    "Hello " +
-                            u.getAuthenticatedUser().getUsername() +
-                            " From section: " + (index + 1));
-            listView.setAdapter(listAdapter);
+            final int index = getArguments().getInt(ARG_SECTION_NUMBER);
+            AccountViewModel accountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+            User user = UserDataHolder.getUserDataHolderInstance().getAuthenticatedUser();
+            final ArrayList<List<String>> lists = new ArrayList<>();
+            lists.add(user.getManagerOf().getEvents());
+            lists.add(user.getGuestIn().getEvents());
+            lists.add(user.getInvitedTo().getInviteeEvent());
+            accountViewModel.getEventsName(lists.get(index), user).observe(this, new android.arch.lifecycle.Observer<List<Event>>() {
+                @Override
+                public void onChanged(@Nullable List<Event> strings) {
+                    ArrayList<String> names = new ArrayList<>();
+                    for(Event e: strings)
+                        names.add(e.getName());
+                    ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
+                    listView.setAdapter(listAdapter);
+                }
+            });
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -233,38 +231,6 @@ public class AccountActivity extends AppCompatActivity {
             return rootView;
 
         }
-
-        @Override
-        public void update(Observable o, Object arg) {
-            Toast.makeText(getContext(),"Update", Toast.LENGTH_LONG).show();
-            UserDataHolder u = (UserDataHolder)o;
-            int index = getArguments().getInt(ARG_SECTION_NUMBER) - 1;
-            List<String> names = new ArrayList<>();
-            switch (index)
-            {
-                case 0:
-                    names = u.getManagerEventsName();
-                    break;
-                case 1:
-                    names = u.getGuestEventsName();
-                    break;
-                case 2:
-                    names = u.getInvitedEventsName();
-                    break;
-
-            }
-            ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
-            textView.setText(
-                    "Hello " +
-                            u.getAuthenticatedUser().getUsername() +
-                            " From section: " + (index + 1));
-            listView.setAdapter(listAdapter);
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.constraintLayout, fragment);
-            transaction.commit();
-            getChildFragmentManager().executePendingTransactions();
-        }
-
     }
 
     /**
@@ -288,22 +254,8 @@ public class AccountActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
     }
 
-    private void getDetailsUser() {
-        user.getUserByUID(email, new get<User>() {
-            @Override
-            public void callBack(User user) {
-                AccountActivity.this.user = user;
-                Toast.makeText(AccountActivity.this, AccountActivity.this.user.getUsername(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private static void getGuestsName(List<String> keys) {
         for (String key : keys) {
@@ -315,6 +267,7 @@ public class AccountActivity extends AppCompatActivity {
             });
         }
     }
+
     private static void getManagersName(List<String> keys) {
         for (String key : keys) {
             tempEvent.getEventByKey(key, new get<Event>() {
@@ -325,6 +278,7 @@ public class AccountActivity extends AppCompatActivity {
             });
         }
     }
+
     private static void getInvitesName(List<String> keys) {
         for (String key : keys) {
             tempEvent.getEventByKey(key, new get<Event>() {

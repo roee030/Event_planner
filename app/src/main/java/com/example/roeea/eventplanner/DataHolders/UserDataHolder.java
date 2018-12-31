@@ -1,5 +1,9 @@
 package com.example.roeea.eventplanner.DataHolders;
 
+import android.app.Application;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,7 +23,7 @@ import java.util.Observer;
  * This class track and reserve the information about the user
  * that is currently logged in our application in his device.
  */
-public class UserDataHolder extends Observable {
+public class UserDataHolder {
     private User user = null;
     private List<Event> ManagerOf;
     private List<Event> GuestIn;
@@ -38,17 +42,11 @@ public class UserDataHolder extends Observable {
         return userDataHolderInstance;
     }
 
-    public void AddObserver(Observer observer)
-    {
-        this.addObserver(observer);
-    }
-
     /**
      * Default Constructor
      */
     private UserDataHolder()
     {
-
         user = new User();
         ManagerOf = new ArrayList<>();
         GuestIn = new ArrayList<>();
@@ -76,11 +74,9 @@ public class UserDataHolder extends Observable {
             this.getInviteToEvents(user.getInvitedTo().getInviteeEvent());
             this.getManagerOfEvents(user.getManagerOf().getEvents());
         }
-
         else {
             this.user = new User();
         }
-        this.notifyObservers();
     }
 
     public List<Event> getManagedEvents()
@@ -130,8 +126,6 @@ public class UserDataHolder extends Observable {
                     UserDataHolder.this.GuestIn.add(event);
                 }
             });
-            if(i == keys.size())
-                this.notifyObservers();
         }
     }
     private void getManagerOfEvents(List<String> keys) {
@@ -149,8 +143,6 @@ public class UserDataHolder extends Observable {
                     UserDataHolder.this.ManagerOf.add(event);
                 }
             });
-            if(i == keys.size())
-                this.notifyObservers();
         }
     }
     private void getInviteToEvents(List<String> keys) {
@@ -166,8 +158,6 @@ public class UserDataHolder extends Observable {
                     UserDataHolder.this.Invite_to.add(event);
                 }
             });
-            if(i == keys.size())
-                this.notifyObservers();
         }
     }
 
