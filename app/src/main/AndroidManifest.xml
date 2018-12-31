@@ -36,7 +36,7 @@
             android:name=".Activities.AccountActivity"
             android:label="@string/title_activity_account"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserSetting"
+        <activity android:name=".Activities.UserSetting"
         android:label="Setting">
 
 

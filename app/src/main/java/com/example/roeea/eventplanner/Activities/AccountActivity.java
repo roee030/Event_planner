@@ -1,24 +1,15 @@
 package com.example.roeea.eventplanner.Activities;
 
-import android.annotation.SuppressLint;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.lifecycle.ViewModelStore;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -26,25 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.roeea.eventplanner.DataHolders.AccountViewModel;
-import com.example.roeea.eventplanner.DataHolders.ExtendedUser;
+import com.example.roeea.eventplanner.DataHolders.FragmentViewModel;
 import com.example.roeea.eventplanner.DataHolders.UserDataHolder;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
-import com.example.roeea.eventplanner.ObjectClasses.Guest;
-import com.example.roeea.eventplanner.ObjectClasses.Invitee;
-import com.example.roeea.eventplanner.ObjectClasses.Manager;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
-import com.example.roeea.eventplanner.UserSetting;
-import com.firebase.client.Firebase;
-import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,12 +36,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -72,7 +50,6 @@ public class AccountActivity extends AppCompatActivity {
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     private ArrayList<List<String>> lists = new ArrayList<List<String>>();
     private static Event tempEvent = new Event();
-    private User user = new User();
 
 
     /**
@@ -92,6 +69,8 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+
 
         int numberOfTabs = 3;
         String eventID = getIntent().getStringExtra("eventID");
@@ -178,6 +157,9 @@ public class AccountActivity extends AppCompatActivity {
         private static ArrayList<String>  keys;
         private TextView textView;
         private FirebaseAuth mAuth;
+        private User user = new User();
+        private AccountViewModel accountViewModel = new AccountViewModel();
+        private FragmentViewModel fragmentViewModel = new FragmentViewModel();
 
         public PlaceholderFragment() {
         }
@@ -206,20 +188,31 @@ public class AccountActivity extends AppCompatActivity {
             textView = (TextView) rootView.findViewById(R.id.section_label);
             listView = (ListView) rootView.findViewById(R.id.accountListView);
             final int index = getArguments().getInt(ARG_SECTION_NUMBER);
-            AccountViewModel accountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+            AccountViewModel accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
             User user = UserDataHolder.getUserDataHolderInstance().getAuthenticatedUser();
             final ArrayList<List<String>> lists = new ArrayList<>();
-            lists.add(user.getManagerOf().getEvents());
-            lists.add(user.getGuestIn().getEvents());
-            lists.add(user.getInvitedTo().getInviteeEvent());
-            accountViewModel.getEventsName(lists.get(index), user).observe(this, new android.arch.lifecycle.Observer<List<Event>>() {
+            accountViewModel.getUser().observe(this, new Observer<User>() {
                 @Override
-                public void onChanged(@Nullable List<Event> strings) {
-                    ArrayList<String> names = new ArrayList<>();
-                    for(Event e: strings)
-                        names.add(e.getName());
-                    ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
-                    listView.setAdapter(listAdapter);
+                public void onChanged(@Nullable User user) {
+                    if(user != null) {
+                        PlaceholderFragment.this.user = user;
+                        lists.add(user.getManagerOf().getEvents());
+                        lists.add(user.getGuestIn().getEvents());
+                        lists.add(user.getInvitedTo().getInviteeEvent());
+                        fragmentViewModel.loadEvents(lists.get(getArguments().getInt(ARG_SECTION_NUMBER)));
+                    }
+                }
+            });
+            fragmentViewModel.getEvent().observe(this, new Observer<List<Event>>() {
+                @Override
+                public void onChanged(@Nullable List<Event> events) {
+                    if (events != null) {
+                        ArrayList<String> names = new ArrayList<>();
+                        for (Event e : events)
+                            names.add(e.getName());
+                        ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
+                        listView.setAdapter(listAdapter);
+                    }
                 }
             });
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -19,28 +19,16 @@ import java.util.List;
 import static com.google.firebase.database.FirebaseDatabase.*;
 
 public class AccountViewModel extends ViewModel {
-    private MutableLiveData<List<Event>> names;
-    private MutableLiveData<User> user;
+    private MutableLiveData<User> user = new MutableLiveData<>();
     private DatabaseReference fb;
     private FirebaseAuth mAuth;
 
-    public LiveData<List<Event>> getEventsName(List<String> keys, User user)
-    {
-        if(names == null)
-        {
-            names = new MutableLiveData<>();
-            Event event = new Event();
-
-            event.getListOfEventsByKeys(keys, new get<List<Event>>() {
-                @Override
-                public void callBack(List<Event> events) {
-                    AccountViewModel.this.names.setValue(events);
-                }
-            });
-        }
-        return names;
-    }
     public LiveData<User> getUser()
+    {
+        return user;
+    }
+
+    public void loadUseer()
     {
         if(user == null) {
             user = new MutableLiveData<>();
@@ -55,7 +43,5 @@ public class AccountViewModel extends ViewModel {
                 }
             });
         }
-        return user;
-
     }
 }

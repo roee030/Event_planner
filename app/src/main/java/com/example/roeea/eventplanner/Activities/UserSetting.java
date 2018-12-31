@@ -1,4 +1,4 @@
-package com.example.roeea.eventplanner;
+package com.example.roeea.eventplanner.Activities;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
+import com.example.roeea.eventplanner.PreferenceSetting;
+import com.example.roeea.eventplanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
