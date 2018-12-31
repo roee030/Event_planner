@@ -29,6 +29,7 @@ import com.example.roeea.eventplanner.ObjectClasses.Manager;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
+import com.example.roeea.eventplanner.UserSetting;
 import com.firebase.client.Firebase;
 import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.firebase.auth.FirebaseAuth;
@@ -158,7 +159,8 @@ public class AccountActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(getBaseContext(), UserSetting.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
