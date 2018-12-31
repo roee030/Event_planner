@@ -156,9 +156,9 @@ public class MainActivity extends AppCompatActivity {
                             if (user == null)
                                 Log.e("MainActivity/startSign","user is null + " + mAuth.getUid());
                             UserDataHolder.getUserDataHolderInstance().setAuthenticatedUser(MainActivity.this.user);
-                            startAccountActivity();
                         }
                     });
+                    startAccountActivity();
                 }
             }
         });

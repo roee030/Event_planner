@@ -23,7 +23,6 @@ public class FragmentViewModel extends ViewModel
 
     public void loadEvents(List<String> keys)
     {
-        events = new MutableLiveData<>();
         Event event = new Event();
         event.getListOfEventsByKeys(keys, new get<List<Event>>() {
             @Override

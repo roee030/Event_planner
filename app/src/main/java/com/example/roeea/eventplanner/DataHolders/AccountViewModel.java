@@ -30,8 +30,6 @@ public class AccountViewModel extends ViewModel {
 
     public void loadUseer()
     {
-        if(user == null) {
-            user = new MutableLiveData<>();
             fb = getInstance().getReference();
             mAuth = FirebaseAuth.getInstance();
             String Uid = mAuth.getUid();
@@ -42,6 +40,5 @@ public class AccountViewModel extends ViewModel {
                     AccountViewModel.this.user.setValue(user);
                 }
             });
-        }
     }
 }
