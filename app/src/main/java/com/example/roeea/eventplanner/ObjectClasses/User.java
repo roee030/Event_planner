@@ -2,6 +2,7 @@ package com.example.roeea.eventplanner.ObjectClasses;
 
 import android.hardware.usb.UsbRequest;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -24,6 +25,7 @@ public class User {
     private Manager managerOf;
     private Invitee invitedTo;
     private Guest guestIn;
+    private static final String TAG = "User";
 
     public User(String username, String email, Manager managerOf, Invitee invitedTo, Guest guestIn) {
         this.username = username;
@@ -54,10 +56,8 @@ public class User {
         firDatabaseUsers.child("Users").child(UID).addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
-
-                    User user = new User();
-                    user = dataSnapshot.getValue(User.class);
-                    u.callBack(user);
+                 User user = dataSnapshot.getValue(User.class);
+                 u.callBack(user);
             }
 
             @Override
@@ -65,9 +65,6 @@ public class User {
 
             }
         });
-
-
-
         return null;
     }
 

@@ -2,7 +2,11 @@ package com.example.roeea.eventplanner.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +28,7 @@ import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
+import com.example.roeea.eventplanner.ViewModels.AccountViewModel;
 import com.example.roeea.eventplanner.dialog_of_product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -99,7 +104,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         addNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String eventID = fEventRef.push().getKey();
+                final String eventID = fEventRef.push().getKey();
                 List<String> manager = new ArrayList<>();
                 manager.add(fAuth.getUid());
                 addEventIDToUser(eventID);
@@ -150,7 +155,6 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                 if(user.getManagerOf() == null) Log.w("EventCreation", "usermanagerof is null");
                 usermanagerof.addEventtoList(eventID);
                 userRef.child("managerOf").setValue(usermanagerof);
-
             }
         });
 //        userRef.addValueEventListener(new ValueEventListener() {
