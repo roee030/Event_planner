@@ -136,7 +136,6 @@ public class AccountActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(getBaseContext(), UserSetting.class));
-            finish();
         }
 
         return super.onOptionsItemSelected(item);
