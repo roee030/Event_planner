@@ -25,8 +25,12 @@ public class User {
     private Manager managerOf;
     private Invitee invitedTo;
     private Guest guestIn;
+<<<<<<< HEAD
     private static final String TAG = "User";
 
+=======
+    private User userForCallBack;
+>>>>>>> ecccb65fdcac37c60ade6ebd24c88f6bf838dca0
     public User(String username, String email, Manager managerOf, Invitee invitedTo, Guest guestIn) {
         this.username = username;
         this.email = email;
@@ -86,7 +90,23 @@ public class User {
         this.guestIn = guestIn;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
+//
+//        mAuth = FirebaseAuth.getInstance();
+//
+//        firDatabaseUsers.child("Users").child(mAuth.getUid());
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        String userID = mAuth.getCurrentUser().getUid();
+//        FBdb = FirebaseDatabase.getInstance();
+//        User userForChangeNameInDB = getUserByUID(userID, new get<User>() {
+//            @Override
+//            public void callBack(User user) {
+//                String userID = mAuth.getCurrentUser().getUid();
+//                userForCallBack = user;
+//                FBdb.getReference().child("Users").child(userID).child("username").setValue("lala");
+//            }
+//        });
         this.username = username;
     }
 
