@@ -25,12 +25,9 @@ public class User {
     private Manager managerOf;
     private Invitee invitedTo;
     private Guest guestIn;
-<<<<<<< HEAD
     private static final String TAG = "User";
 
-=======
     private User userForCallBack;
->>>>>>> ecccb65fdcac37c60ade6ebd24c88f6bf838dca0
     public User(String username, String email, Manager managerOf, Invitee invitedTo, Guest guestIn) {
         this.username = username;
         this.email = email;
