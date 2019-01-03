@@ -47,6 +47,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     private EditText eventTimeEditText;
     private EditText eventDate;
     private EditText eventProduct;
+    private EditText eventBudget;
 
     private FirebaseDatabase fbdatabase  = FirebaseDatabase.getInstance();
     private DatabaseReference fEventRef = fbdatabase.getReference().child("Events");
@@ -70,7 +71,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventDetails = (EditText) findViewById(R.id.event_about_input);
         eventTimeEditText = (EditText) findViewById(R.id.eventTime);
         eventDate = (EditText) findViewById(R.id.eventDate);
-        eventProduct = (EditText) findViewById((R.id.eventProduct));
+        eventProduct = (EditText) findViewById(R.id.eventProduct);
+        eventBudget = (EditText) findViewById(R.id.eventBudget);
 
         addNewEventButton = (Button)findViewById(R.id.submitbtn);
 
@@ -110,7 +112,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                 addEventIDToUser(eventID);
                 addEventToFireBase(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
-                        eventDetails.getText().toString(), productsArrayList, manager, new ArrayList<String>(), new ArrayList<String>());
+                        eventDetails.getText().toString(), productsArrayList, Integer.parseInt(eventBudget.getText().toString()),
+                        manager, new ArrayList<String>(), new ArrayList<String>());
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
 
@@ -136,9 +139,9 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     private void addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
-                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList,
+                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList, int budget,
                                     List<String> MangerUids, List<String> GuestsUids, List<String> invited) {
-        Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList);
+        Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList, budget);
         fbdatabase.getReference().child("Events").child(eventID).setValue(event);
     }
 

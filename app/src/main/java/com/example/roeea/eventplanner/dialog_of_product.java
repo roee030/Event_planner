@@ -10,11 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.example.roeea.eventplanner.Activities.EventCreationActivity;
-
-import java.util.ArrayList;
 
 public class dialog_of_product extends AppCompatDialogFragment {
     private EditText editText;
@@ -26,7 +21,7 @@ public class dialog_of_product extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.listofproducts,null);
+        View view = inflater.inflate(R.layout.product_item,null);
         builder.setView(view).setTitle("Add product to Event").setNegativeButton("add!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

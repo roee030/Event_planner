@@ -1,21 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activities.EventInvitationActivity"
-    tools:layout_editor_absoluteY="81dp">
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-      <EditText
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Description:"/>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/side_nav_bar"
+        tools:context=".Activities.EventInvitationActivity">
 
+        <TextView
+            android:id="@+id/txtInvitedTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="42dp"
+            android:layout_marginEnd="201dp"
+            android:layout_marginRight="201dp"
+            android:layout_marginBottom="10dp"
+            android:text="You have been invited to "
+            app:layout_constraintBottom_toTopOf="@+id/txtLoc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-  </LinearLayout>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/txtLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="297dp"
+            android:layout_marginRight="297dp"
+            android:text="Location: "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInvitedTo" />
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="323dp"
+            android:layout_marginRight="323dp"
+            android:layout_marginBottom="10dp"
+            android:text="Date: "
+            app:layout_constraintBottom_toTopOf="@+id/txtTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtLoc"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="321dp"
+            android:layout_marginRight="321dp"
+            android:layout_marginBottom="10dp"
+            android:text="Time: "
+            app:layout_constraintBottom_toTopOf="@+id/txtDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+        <TextView
+            android:id="@+id/txtDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="309dp"
+            android:layout_marginRight="309dp"
+            android:layout_marginBottom="10dp"
+            android:text="Details: "
+            app:layout_constraintBottom_toTopOf="@+id/txtBudget"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+
+        <TextView
+            android:id="@+id/txtBudget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="164dp"
+            android:layout_marginRight="164dp"
+            android:layout_marginBottom="10dp"
+            android:text="Individual budget requierment: "
+            app:layout_constraintBottom_toTopOf="@+id/txtProducts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDetails" />
+
+        <TextView
+            android:id="@+id/txtProducts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="295dp"
+            android:layout_marginRight="295dp"
+            android:layout_marginBottom="10dp"
+            android:text="Products: "
+            app:layout_constraintBottom_toTopOf="@+id/scrollView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtBudget" />
+
+        <ScrollView
+            android:id="@+id/scrollView6"
+            android:layout_width="306dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtProducts">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <fragment
+                    android:id="@+id/fragment"
+                    android:name="com.example.roeea.eventplanner.Fragments.fragment_ProductList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

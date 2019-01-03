@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.roeea.eventplanner.Fragments.fragment_ProductList;
 import com.example.roeea.eventplanner.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,11 +37,16 @@ public class EventInvitationActivity extends AppCompatActivity {
 
         eventID = getIntent().getStringExtra("eventID");
 
+        Bundle bundle = new Bundle();
+        bundle.putString("eventID", eventID);
+        fragment_ProductList fragobj = new fragment_ProductList();
+        fragobj.setArguments(bundle);
 
-        eventName = findViewById(R.id.txtEventName);
-        eventLocation = findViewById(R.id.txtLocation);
-        eventTime = findViewById(R.id.txtTime);
-        eventDate = findViewById(R.id.txtDate);
+
+//        eventName = findViewById(R.id.txtEventName);
+//        eventLocation = findViewById(R.id.txtLocation);
+//        eventTime = findViewById(R.id.txtTime);
+//        eventDate = findViewById(R.id.txtDate);
 
         pullEventDetailsFromDB(eventID);
 

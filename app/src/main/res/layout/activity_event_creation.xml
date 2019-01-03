@@ -10,55 +10,59 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical"
 
         >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="70dp"
             android:text="Set a new Event!"
-            android:textSize="35dp"/>
+            android:textSize="35dp" />
 
         <android.support.design.widget.TextInputLayout
 
             android:id="@+id/event_name_continer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/eventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:hint="Event Name"
-                android:lines="1"
-                android:maxLines="2"
                 android:gravity="top"
-                android:inputType="textMultiLine|textCapSentences"/>
-        </android.support.design.widget.TextInputLayout><android.support.design.widget.TextInputLayout
+                android:hint="Event Name"
+                android:inputType="textMultiLine|textCapSentences"
+                android:lines="1"
+                android:maxLines="2" />
+        </android.support.design.widget.TextInputLayout>
 
-        android:id="@+id/event_Loc_continer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/eventLoc"
+        <android.support.design.widget.TextInputLayout
+
+            android:id="@+id/event_Loc_continer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
 
-            android:hint="Event Location"
-            android:lines="1"
-            android:maxLines="2"
-            android:gravity="top"
-            android:inputType="textMultiLine|textCapSentences"/>
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/eventLoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="top"
+                android:hint="Event Location"
+                android:inputType="textMultiLine|textCapSentences"
+                android:lines="1"
+                android:maxLines="2" />
+        </android.support.design.widget.TextInputLayout>
 
 
         <EditText
+            android:id="@+id/eventDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/eventDate"
-            android:hint="Double click here to set Date"/>
+            android:hint="Double click here to set Date" />
 
         <EditText
             android:id="@+id/eventTime"
@@ -68,29 +72,33 @@
             android:inputType="none" />
 
 
-
-
         <EditText
+            android:id="@+id/eventProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/eventProduct"
-            android:hint="Click here to set Products"/>
+            android:hint="Click here to set Products" />
 
+        <EditText
+            android:id="@+id/eventBudget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Set event's product budget" />
 
         <android.support.design.widget.TextInputLayout
 
             android:id="@+id/event_about_continer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/event_about_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tell us about your event!"
-                android:lines="5"
-                android:maxLines="5"
                 android:gravity="top"
-                android:inputType="textMultiLine|textCapSentences"/>
+                android:hint="Tell us about your event!"
+                android:inputType="textMultiLine|textCapSentences"
+                android:lines="5"
+                android:maxLines="5" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
