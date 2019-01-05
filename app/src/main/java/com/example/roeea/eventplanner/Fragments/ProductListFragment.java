@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,26 +15,25 @@ import android.widget.TextView;
 import com.example.roeea.eventplanner.Adapters.OrderAdapter;
 import com.example.roeea.eventplanner.ObjectClasses.Product;
 import com.example.roeea.eventplanner.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class fragment_ProductList extends Fragment {
+public class ProductListFragment extends Fragment {
 
     private FirebaseDatabase fbdatabase  = FirebaseDatabase.getInstance();
     private DatabaseReference fEventRef = fbdatabase.getReference().child("Events");
     private String eventID;
 
     TextView mealTotalText;
-    ArrayList<Product> orders;
+    ArrayList<Product> products;
 
-    public fragment_ProductList() {
+    public ProductListFragment() {
     }
 
     @Nullable
@@ -56,9 +54,9 @@ public class fragment_ProductList extends Fragment {
 
 
 
-        orders = getListItemData(fEventRef);
+        getListItemData(fEventRef);
         mealTotalText = (TextView) view.findViewById(R.id.meal_total);
-        OrderAdapter adapter = new OrderAdapter(view.getContext(), orders);
+        OrderAdapter adapter = new OrderAdapter(view.getContext(), products);
 
         storedOrders.setAdapter(adapter);
         adapter.registerDataSetObserver(observer);
@@ -67,7 +65,7 @@ public class fragment_ProductList extends Fragment {
 
     public int calculateMealTotal(){
         int mealTotal = 0;
-        for(Product order : orders){
+        for(Product order : products){
             mealTotal += order.getPrice() * order.getQuantity();
         }
         return mealTotal;
@@ -81,28 +79,25 @@ public class fragment_ProductList extends Fragment {
         }
     };
 
-    private ArrayList<Product> getListItemData(DatabaseReference fEventRef){
-        ArrayList<Product> listViewItems;
-
+    private void getListItemData(DatabaseReference fEventRef){
         fEventRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                listViewItems = dataSnapshot.child("products");
+                GenericTypeIndicator<ArrayList<Product>> t = new GenericTypeIndicator<ArrayList<Product>>() {};
+                products.clear();
+                products = dataSnapshot.child("products").getValue(t);
 
 
-               // eventDate.append(dataSnapshot.child("date").getValue(String.class));
-                Log.d("fragment_ProductList", "pulling product list from event");
+                // eventDate.append(dataSnapshot.child("date").getValue(String.class));
+                Log.d("ProductListFragment", "pulling product list from event");
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("fragment_ProductList", "Failed to read value.", error.toException());
+                Log.w("ProductListFragment", "Failed to read value.", error.toException());
             }
         });
-
-
-        return listViewItems;
     }
 
     public void setMealTotal(){

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.roeea.eventplanner.ObjectClasses.Product;
 import com.example.roeea.eventplanner.R;
-import com.example.roeea.eventplanner.Fragments.fragment_ProductList;
 
 import java.util.List;
 

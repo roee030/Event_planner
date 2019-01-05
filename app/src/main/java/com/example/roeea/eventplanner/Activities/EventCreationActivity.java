@@ -2,11 +2,7 @@ package com.example.roeea.eventplanner.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,8 +24,7 @@ import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
-import com.example.roeea.eventplanner.ViewModels.AccountViewModel;
-import com.example.roeea.eventplanner.dialog_of_product;
+import com.example.roeea.eventplanner.ProductsDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -40,13 +35,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, dialog_of_product.DialogLisnnerforproducts {
+public class EventCreationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, ProductsDialog.ProductsDialogListener {
     private EditText eventName;
     private EditText eventDetails;
     private EditText eventLoc;
     private EditText eventTimeEditText;
     private EditText eventDate;
-    private EditText eventProduct;
+    private TextView eventProduct;
     private EditText eventBudget;
 
     private FirebaseDatabase fbdatabase  = FirebaseDatabase.getInstance();
@@ -71,7 +66,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventDetails = (EditText) findViewById(R.id.event_about_input);
         eventTimeEditText = (EditText) findViewById(R.id.eventTime);
         eventDate = (EditText) findViewById(R.id.eventDate);
-        eventProduct = (EditText) findViewById(R.id.eventProduct);
+        eventProduct = findViewById(R.id.eventProduct);
         eventBudget = (EditText) findViewById(R.id.eventBudget);
 
         addNewEventButton = (Button)findViewById(R.id.submitbtn);
@@ -97,7 +92,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openTimeDialog();
+                openProductListDialog();
             }
         });
         /*
@@ -205,22 +200,14 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventDate.setText(currentDateString, TextView.BufferType.EDITABLE);
     }
 
-    public void openTimeDialog() {
-        dialog_of_product dialog = new dialog_of_product();
-        dialog.show(getSupportFragmentManager(), "Example");
-
+    public void openProductListDialog() {
+        ProductsDialog dialog = new ProductsDialog();
+        dialog.setProducts(productsArrayList);
+        dialog.showNow(getSupportFragmentManager(), "Products List");
     }
 
     @Override
-    public void applyText(String product) {
-        Product p = new Product(product,1);
-        productsArrayList.add(p);
-        eventProduct.setText(productsArrayList.toString());
+    public void listUpdated(ArrayList<Product> products) {
+        productsArrayList = products;
     }
-
-    @Override
-    public void clearList() {
-        productsArrayList.clear();
-    }
-
 }
