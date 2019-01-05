@@ -3,7 +3,7 @@ package com.example.roeea.eventplanner.ObjectClasses;
 public class Product {
 
     private String name;
-    private double quantity;
+    private int quantity;
     private int price;
 
     public Product() {
@@ -38,11 +38,11 @@ public class Product {
 
     public int getPrice(){return this.price; }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 

@@ -127,6 +127,7 @@ public class User {
     }
 
     public Guest getGuestIn() {
+        if (guestIn == null) guestIn = new Guest();
         return guestIn;
     }
 }

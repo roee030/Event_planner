@@ -22,7 +22,7 @@ public class Event {
     private List<String> mannager;
     private List<String> guests;
     private List<String> invited;
-    private ArrayList<Product> products;
+    private List<Product> products;
     private int budget;
     private DatabaseReference fireDatabaseT;
     private Event temp_event;
@@ -48,6 +48,7 @@ public class Event {
     }
 
     public List<String> getMannager() {
+        if(mannager == null) mannager = new ArrayList<>();
         return mannager;
     }
 
@@ -56,6 +57,7 @@ public class Event {
     }
 
     public List<String> getGuests() {
+        if(guests == null) guests = new ArrayList<>();
         return guests;
     }
 
@@ -64,6 +66,7 @@ public class Event {
     }
 
     public List<String> getInvited() {
+        if(invited == null) invited = new ArrayList<>();
         return invited;
     }
 
@@ -105,8 +108,8 @@ public class Event {
                             m_events.add(Event.this.temp_event);
                         }
                     }
-                    events.callBack(m_events);
                 }
+                events.callBack(m_events);
             }
 
             @Override
@@ -178,11 +181,12 @@ public class Event {
         this.loc = loc;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
+        if (products == null) products = new ArrayList<>();
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }

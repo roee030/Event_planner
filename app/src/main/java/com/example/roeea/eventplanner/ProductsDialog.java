@@ -63,7 +63,7 @@ public class ProductsDialog extends AppCompatDialogFragment {
 
     private void initializeProductsList(RecyclerView productsList) {
         productsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        productsList.setAdapter(new ProdcutsListAdapter(productsList));
+        productsList.setAdapter(new ProductsListAdapter(productsList));
     }
 
     @Override
@@ -81,10 +81,10 @@ public class ProductsDialog extends AppCompatDialogFragment {
         void listUpdated(ArrayList<Product> products);
     }
 
-    private class ProdcutsListAdapter extends RecyclerView.Adapter {
+    private class ProductsListAdapter extends RecyclerView.Adapter {
         private final RecyclerView recyclerView;
 
-        public ProdcutsListAdapter(RecyclerView recyclerView) {
+        public ProductsListAdapter(RecyclerView recyclerView) {
             this.recyclerView = recyclerView;
         }
 

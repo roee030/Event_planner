@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -52,7 +51,6 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
     private Time eventTime;
 
-    ListView listOfProducts = null;
     private ArrayList<Product> productsArrayList;
     private User user;
 
@@ -103,7 +101,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
             public void onClick(View v) {
                 final String eventID = fEventRef.push().getKey();
                 List<String> manager = new ArrayList<>();
-                manager.add(fAuth.getUid());
+                manager.add(fAuth.getCurrentUser().getUid());
                 addEventIDToUser(eventID);
                 addEventToFireBase(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
@@ -135,8 +133,9 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
     private void addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
                                     String eventTime, String eventDetails, ArrayList<Product> productsArrayList, int budget,
-                                    List<String> MangerUids, List<String> GuestsUids, List<String> invited) {
+                                    List<String> ManagerUids, List<String> GuestsUids, List<String> invited) {
         Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList, budget);
+        event.setMannager(ManagerUids);
         fbdatabase.getReference().child("Events").child(eventID).setValue(event);
     }
 

@@ -21,11 +21,19 @@ public class Guest {
         //doto
     }
 
-    public List<String> getEvents() {
-        return new ArrayList<>(events.keySet());
+    public Map<String, List<Product>> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Map<String, List<Product>> events) {
+        this.events = events;
     }
 
     public List<Product> getProductsForEvent(String eventId) {
         return events.get(eventId);
+    }
+
+    public void setProductsForEvent(String eventId, List<Product> products) {
+        events.put(eventId, products);
     }
 }
