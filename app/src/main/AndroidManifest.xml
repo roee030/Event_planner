@@ -32,6 +32,8 @@
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.EventCreationActivity" />
         <activity android:name=".Activities.EventInvitationActivity" />
+        <activity android:name=".Activities.SearchUserActivity"
+            android:theme="@style/SearchTheme"/>
         <activity
             android:name=".Activities.AccountActivity"
             android:label="@string/title_activity_account"
@@ -41,6 +43,10 @@
 
 
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

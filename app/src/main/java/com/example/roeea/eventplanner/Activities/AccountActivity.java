@@ -137,6 +137,10 @@ public class AccountActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(getBaseContext(), UserSetting.class));
         }
+        if(id == R.id.SearchUser)
+        {
+            startActivity(new Intent(getBaseContext(), SearchUserActivity.class));
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -251,40 +255,6 @@ public class AccountActivity extends AppCompatActivity {
         public int getCount() {
             // Show 3 total pages.
             return 3;
-        }
-    }
-
-
-    private static void getGuestsName(List<String> keys) {
-        for (String key : keys) {
-            tempEvent.getEventByKey(key, new get<Event>() {
-                @Override
-                public void callBack(Event event) {
-                    guestIn_Name.add(event.getName());
-                }
-            });
-        }
-    }
-
-    private static void getManagersName(List<String> keys) {
-        for (String key : keys) {
-            tempEvent.getEventByKey(key, new get<Event>() {
-                @Override
-                public void callBack(Event event) {
-                    MangerOf_Name.add(event.getName());
-                }
-            });
-        }
-    }
-
-    private static void getInvitesName(List<String> keys) {
-        for (String key : keys) {
-            tempEvent.getEventByKey(key, new get<Event>() {
-                @Override
-                public void callBack(Event event) {
-                    InvitedTo_Name.add(event.getName());
-                }
-            });
         }
     }
 }

@@ -9,7 +9,6 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/side_nav_bar"
         android:paddingStart="52dp"
         android:paddingLeft="52dp"
         tools:context=".Activities.EventInvitationActivity">

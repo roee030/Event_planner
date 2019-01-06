@@ -88,6 +88,7 @@
     <string name="add_event">Add Event</string>
     <string name="price">Price</string>
     <string name="add_product_name">Name</string>
+    <string name="search_user">Search User</string>
     <string-array name="settinglist">
         <item>item1</item>
         <item>item2</item>
