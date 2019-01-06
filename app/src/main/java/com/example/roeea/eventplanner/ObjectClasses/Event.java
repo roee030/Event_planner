@@ -23,7 +23,8 @@ public class Event {
     private List<String> guests;
     private List<String> invited;
     private List<Product> products;
-    private int budget;
+    private String budget;
+    private String totalEventBudget;
     private DatabaseReference fireDatabaseT;
     private Event temp_event;
     final List<Event> m_events = new ArrayList<>();
@@ -74,12 +75,12 @@ public class Event {
         this.invited = invited;
     }
 
-    public void setProductBudget(int budget){ budget = budget; }
+    public void setBudget(String budget){ this.budget = budget; }
 
-    public int getProductBudget(){return budget; }
+    public String getBudget(){return budget; }
 
     public Event(String eventID, String eventName, String eventLoc, String eventDate,
-                 String eventTime, String eventDetails, ArrayList<Product> productsArrayList, int budget) {
+                 String eventTime, String eventDetails, ArrayList<Product> productsArrayList, String budget) {
 
         this.eventID = eventID;
         this.budget = budget;
@@ -92,6 +93,7 @@ public class Event {
         mannager = new ArrayList<>();
         guests = new ArrayList<>();
         invited = new ArrayList<>();
+        totalEventBudget = "";
     }
 
     public void getListOfEventsByKeys(final List<String> keys, final get<List<Event>> events)
@@ -146,6 +148,7 @@ public class Event {
                 ", invited = " + invited +
                 ", products = " + products +
                 ", budget = " + budget +
+                ", totalEventBudget = " + totalEventBudget +
                 '}';
     }
 
@@ -188,5 +191,15 @@ public class Event {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getTotalEventBudget(){ return totalEventBudget; }
+
+    public void updateTotalEventBudget(){
+        int sum = 0;
+        for(int i = 0; i < products.size(); i++){
+            sum += products.get(i).getQuantity() * products.get(i).getPrice();
+        }
+        totalEventBudget = sum +"";
     }
 }

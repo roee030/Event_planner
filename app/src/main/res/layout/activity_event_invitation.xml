@@ -91,13 +91,15 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/productsList"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/txtProducts"
             app:layout_constraintBottom_toTopOf="@+id/btnAccept"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtProducts"
+            app:layout_constraintTop_toBottomOf="@+id/txtProducts"
             tools:listitem="@layout/product_item" />
 
         <Button
@@ -120,6 +122,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnAccept"
             app:layout_constraintTop_toTopOf="@id/btnAccept" />
+
+        <TextView
+            android:id="@+id/txtTotalProductCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="97dp"
+            android:layout_marginRight="97dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/productsList"
+            app:layout_constraintEnd_toEndOf="@+id/productsList" />
 
     </android.support.constraint.ConstraintLayout>
 

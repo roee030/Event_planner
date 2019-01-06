@@ -105,7 +105,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                 addEventIDToUser(eventID);
                 addEventToFireBase(eventID, eventName.getText().toString(), eventLoc.getText().toString(),
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
-                        eventDetails.getText().toString(), productsArrayList, Integer.parseInt(eventBudget.getText().toString()),
+                        eventDetails.getText().toString(), productsArrayList, eventBudget.getText().toString(),
                         manager, new ArrayList<String>(), new ArrayList<String>());
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
@@ -132,7 +132,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     private void addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
-                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList, int budget,
+                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList, String budget,
                                     List<String> ManagerUids, List<String> GuestsUids, List<String> invited) {
         Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList, budget);
         event.setMannager(ManagerUids);

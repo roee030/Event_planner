@@ -1,19 +1,18 @@
 package com.example.roeea.eventplanner.Activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +43,7 @@ public class EventInvitationActivity extends AppCompatActivity {
     TextView eventDetails;
     TextView eventBudget;
     RecyclerView productsList;
+    TextView eventProductCost;
     Button accept;
     Button decline;
 
@@ -65,6 +64,7 @@ public class EventInvitationActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         FBdb = FirebaseDatabase.getInstance();
         userID = fAuth.getCurrentUser().getUid();
+        eventProductCost = findViewById(R.id.txtTotalProductCost);
         pullEventDetailsFromDB(eventID);
 
         accept = findViewById(R.id.btnAccept);
@@ -72,6 +72,9 @@ public class EventInvitationActivity extends AppCompatActivity {
         productsList = findViewById(R.id.productsList);
         productsList.setLayoutManager(new LinearLayoutManager(this));
         productsList.setAdapter(new ProductsListAdapter(productsList));
+
+
+
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +84,8 @@ public class EventInvitationActivity extends AppCompatActivity {
                 for (int i = 0; i < products.size(); i++) {
                     event.getProducts().get(i).setQuantity(event.getProducts().get(i).getQuantity() + products.get(i).getQuantity());
                 }
+                event.updateTotalEventBudget();
+
                 fEventRef.setValue(event);
 
                 final DatabaseReference fUserRef = FBdb.getReference().child("Users").child(userID);
@@ -126,13 +131,12 @@ public class EventInvitationActivity extends AppCompatActivity {
         eventDate = findViewById(R.id.txtDate);
         eventDetails = findViewById(R.id.txtDetails);
         eventBudget = findViewById(R.id.txtBudget);
-
         invitedTo.append(event.getName());
         eventLocation.append(event.getLoc());
         eventTime.append(event.getTime());
         eventDate.append(event.getDate());
         eventDetails.append(event.getDetails());
-        eventBudget.append(event.getProductBudget()+"");
+        eventBudget.append(event.getBudget());
         products.clear();
         for (Product product : event.getProducts()) {
             Product myProduct = new Product();
@@ -143,6 +147,8 @@ public class EventInvitationActivity extends AppCompatActivity {
         }
         productsList.getAdapter().notifyDataSetChanged();
     }
+
+
 
     private class ProductsListAdapter extends RecyclerView.Adapter {
         private final RecyclerView recyclerView;
@@ -178,6 +184,7 @@ public class EventInvitationActivity extends AppCompatActivity {
                     quantity.setTag(product.getQuantity());
                     quantity.setText("" + product.getQuantity());
                     totalQuantity.setText("" + (productFromEvent.getQuantity() + product.getQuantity()));
+                    calcTotalProductsCost(products, Integer.parseInt(event.getBudget()));
                 }
             });
 
@@ -188,6 +195,7 @@ public class EventInvitationActivity extends AppCompatActivity {
                     quantity.setTag(product.getQuantity());
                     quantity.setText("" + product.getQuantity());
                     totalQuantity.setText("" + (productFromEvent.getQuantity() + product.getQuantity()));
+                    calcTotalProductsCost(products, Integer.parseInt(event.getBudget()));
                 }
             });
         }
@@ -195,6 +203,18 @@ public class EventInvitationActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return products.size();
+        }
+
+        private void calcTotalProductsCost(List<Product> products, int budget){
+            int cost = 0;
+            for( Product product : products){
+                cost += product.getQuantity()*product.getPrice();
+            }
+            int budgetProximity = (int)(budget*(20.0f/100.0f));
+            if(cost < budget-budgetProximity) eventProductCost.setTextColor(Color.RED);
+            else if(cost > budget+budgetProximity) eventProductCost.setTextColor(Color.RED);
+            else eventProductCost.setTextColor(Color.GREEN);
+            eventProductCost.setText(cost+"");
         }
     }
 
