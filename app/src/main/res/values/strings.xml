@@ -86,6 +86,8 @@
     <string name="tab_text_2">Guest In</string>
     <string name="tab_text_3">Invited To</string>
     <string name="add_event">Add Event</string>
+    <string name="price">Price</string>
+    <string name="add_product_name">Name</string>
     <string-array name="settinglist">
         <item>item1</item>
         <item>item2</item>

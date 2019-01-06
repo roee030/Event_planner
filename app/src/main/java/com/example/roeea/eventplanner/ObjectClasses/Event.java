@@ -22,7 +22,8 @@ public class Event {
     private List<String> mannager;
     private List<String> guests;
     private List<String> invited;
-    private ArrayList<Product> products;
+    private List<Product> products;
+    private int budget;
     private DatabaseReference fireDatabaseT;
     private Event temp_event;
     final List<Event> m_events = new ArrayList<>();
@@ -47,6 +48,7 @@ public class Event {
     }
 
     public List<String> getMannager() {
+        if(mannager == null) mannager = new ArrayList<>();
         return mannager;
     }
 
@@ -55,6 +57,7 @@ public class Event {
     }
 
     public List<String> getGuests() {
+        if(guests == null) guests = new ArrayList<>();
         return guests;
     }
 
@@ -63,6 +66,7 @@ public class Event {
     }
 
     public List<String> getInvited() {
+        if(invited == null) invited = new ArrayList<>();
         return invited;
     }
 
@@ -70,10 +74,15 @@ public class Event {
         this.invited = invited;
     }
 
+    public void setProductBudget(int budget){ budget = budget; }
+
+    public int getProductBudget(){return budget; }
+
     public Event(String eventID, String eventName, String eventLoc, String eventDate,
-                 String eventTime, String eventDetails, ArrayList<Product> productsArrayList) {
+                 String eventTime, String eventDetails, ArrayList<Product> productsArrayList, int budget) {
 
         this.eventID = eventID;
+        this.budget = budget;
         name = eventName;
         date = eventDate;
         loc = eventLoc;
@@ -99,8 +108,8 @@ public class Event {
                             m_events.add(Event.this.temp_event);
                         }
                     }
-                    events.callBack(m_events);
                 }
+                events.callBack(m_events);
             }
 
             @Override
@@ -133,9 +142,10 @@ public class Event {
                 ", date = " + date +
                 ", loc = " + loc +
                 ", managers = " + mannager +
-                ", guests=" + guests +
+                ", guests = " + guests +
                 ", invited = " + invited +
                 ", products = " + products +
+                ", budget = " + budget +
                 '}';
     }
 
@@ -171,11 +181,12 @@ public class Event {
         this.loc = loc;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
+        if (products == null) products = new ArrayList<>();
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }

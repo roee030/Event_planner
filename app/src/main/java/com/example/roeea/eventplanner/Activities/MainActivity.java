@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnInvite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String eventId = "replaceMe";
+                String eventId = "-LVUftvXIO_ezSZlw3dP";
                 startActivity(
                         new Intent(Intent.ACTION_SEND)
                                 .putExtra(Intent.EXTRA_TEXT, "Please join my event at https://sites.google.com/view/event-planner-ariel?eventId=" + eventId)

@@ -159,6 +159,7 @@ public class AccountActivity extends AppCompatActivity {
         private User user = new User();
         private AccountViewModel accountViewModel;
         private FragmentViewModel fragmentViewModel;
+        private List<Event> events;
 
         public PlaceholderFragment() {
         }
@@ -196,7 +197,7 @@ public class AccountActivity extends AppCompatActivity {
                     if(user != null) {
                         PlaceholderFragment.this.user = user;
                         lists.add(user.getManagerOf().getEvents());
-                        lists.add(user.getGuestIn().getEvents());
+                        lists.add(new ArrayList<String>(user.getGuestIn().getEvents().keySet()));
                         lists.add(user.getInvitedTo().getInviteeEvent());
                         fragmentViewModel.loadEvents(lists.get(getArguments().getInt(ARG_SECTION_NUMBER)));
                     }
@@ -206,6 +207,7 @@ public class AccountActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(@Nullable List<Event> events) {
                     if (events != null) {
+                        PlaceholderFragment.this.events = events;
                         ArrayList<String> names = new ArrayList<>();
                         for (Event e : events)
                             names.add(e.getName());
@@ -217,7 +219,9 @@ public class AccountActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    Intent intent = new Intent(this, EventPrievewActivity.class);
+                    startActivity(new Intent(getContext(), EventInvitationActivity.class)
+                            .putExtra("eventID", events.get(position).getEventID()));
+                    //                    Intent intent = new Intent(this, EventPrievewActivity.class);
 //                    intent.putExtra("Event's ID", result.get(position));
 //                    startActivity(intent);
                 }
