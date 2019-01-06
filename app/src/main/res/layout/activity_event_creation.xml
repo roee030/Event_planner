@@ -17,7 +17,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_centerHorizontal="true"
+
             android:text="Set a new Event!"
             android:textSize="35dp"/>
 
@@ -70,11 +71,7 @@
 
 
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/eventProduct"
-            android:hint="Click here to set Products"/>
+
 
 
         <android.support.design.widget.TextInputLayout
@@ -98,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="150dp"
-            android:text="Submit" />
+            android:text="continue" />
 
     </LinearLayout>
 </ScrollView>

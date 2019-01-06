@@ -2,14 +2,11 @@ package com.example.roeea.eventplanner.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +25,6 @@ import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.example.roeea.eventplanner.TimePickerFragment;
-import com.example.roeea.eventplanner.ViewModels.AccountViewModel;
 import com.example.roeea.eventplanner.dialog_of_product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +43,9 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     private EditText eventTimeEditText;
     private EditText eventDate;
     private EditText eventProduct;
+    private EditText productName;
+    private EditText ProductQuantity;
+    private EditText ProductPrice;
 
     private FirebaseDatabase fbdatabase  = FirebaseDatabase.getInstance();
     private DatabaseReference fEventRef = fbdatabase.getReference().child("Events");
@@ -71,6 +70,9 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         eventTimeEditText = (EditText) findViewById(R.id.eventTime);
         eventDate = (EditText) findViewById(R.id.eventDate);
         eventProduct = (EditText) findViewById((R.id.eventProduct));
+        productName = (EditText) findViewById(R.id.productname);
+        ProductQuantity = (EditText) findViewById(R.id.productquantity);
+        ProductPrice = (EditText) findViewById(R.id.productprice);
 
         addNewEventButton = (Button)findViewById(R.id.submitbtn);
 
@@ -209,8 +211,9 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     @Override
-    public void applyText(String product) {
-        Product p = new Product(product,1);
+    public void applyText(String product,String quantity,String price) {
+
+        Product p = new Product(product,quantity,price);
         productsArrayList.add(p);
         eventProduct.setText(productsArrayList.toString());
     }
@@ -219,5 +222,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     public void clearList() {
         productsArrayList.clear();
     }
+
+
+
 
 }

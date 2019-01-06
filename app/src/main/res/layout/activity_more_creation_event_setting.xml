@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MoreCreationEventSetting">
+
+    <TextView
+        style="@style/CustomFontStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add More Deatelis"
+        android:textSize="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+
+        />
+
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eventProduct"
+        android:layout_marginTop="60dp"
+        android:hint="Click here to set Products"/>
+
+    <Button
+        android:id="@+id/btnInvite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Invite friends"
+        android:background="@drawable/btn_cover"
+        android:layout_marginTop="100dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/RegistrationTextRules"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="Registration Rules: Once you click on the Confirmation button, the data will be saved in the system. Do not worry, you can always change, edit, or delete event details. Be sure that there is no external use of your details."/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Create"
+        android:layout_marginTop="230dp"
+        android:background="@drawable/btn_cover"
+        />
+
+</RelativeLayout>

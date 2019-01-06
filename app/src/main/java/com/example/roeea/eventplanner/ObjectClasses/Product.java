@@ -3,14 +3,15 @@ package com.example.roeea.eventplanner.ObjectClasses;
 public class Product {
 
     String name;
-    double quantity;
-
+    String quantity;
+    String pricePerItem;
     public Product() {
     }
 
-    public Product(String name, double quantity) {
+    public Product(String name, String quantity ,String pricePerItem) {
         this.name = name;
         this.quantity = quantity;
+        this.pricePerItem = pricePerItem;
     }
 
 
@@ -19,12 +20,18 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                ", name='" + name + '\'' +
-                ", quantity=" + quantity +
-                '}';
+        return "Name=" +
+                 name  +
+                ", quantity=" + quantity +", price(PI)=" + pricePerItem +"|";
     }
 
+    public String getPricePerItem() {
+        return pricePerItem;
+    }
+
+    public void setPricePerItem(String pricePerItem) {
+        this.pricePerItem = pricePerItem;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -32,7 +39,7 @@ public class Product {
 
 
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
@@ -43,7 +50,7 @@ public class Product {
     }
 
 
-    public double getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 

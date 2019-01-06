@@ -4,26 +4,35 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+        <TextView
+            android:id="@+id/txtlistofproducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a product name"
+            android:layout_marginTop="20dp"
+            android:id="@+id/productname"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a quantity"
+            android:inputType="number"
+            android:layout_marginTop="70dp"
+            android:id="@+id/productquantity"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter a price per item"
+            android:layout_marginTop="120dp"
+            android:id="@+id/productprice"/>
 
-    <TextView
-        android:id="@+id/txtlistofproducts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter a product"
-        android:id="@+id/productField"/>
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
-        <ListView
-            android:id="@+id/itemofproduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></ListView>
-    </ScrollView>
+
+
+
 </RelativeLayout>

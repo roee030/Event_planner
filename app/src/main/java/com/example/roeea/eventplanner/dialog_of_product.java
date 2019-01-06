@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,11 +15,10 @@ import android.widget.Toast;
 
 import com.example.roeea.eventplanner.Activities.EventCreationActivity;
 
-import java.util.ArrayList;
-
 public class dialog_of_product extends AppCompatDialogFragment {
-    private EditText editText;
-    private EditText productlist;
+    private EditText ProductName;
+    private EditText ProductQuantity;
+    private EditText ProductPricePerItem;
 
     private ListView productListView;
     private DialogLisnnerforproducts lisnner;
@@ -30,11 +30,17 @@ public class dialog_of_product extends AppCompatDialogFragment {
         builder.setView(view).setTitle("Add product to Event").setNegativeButton("add!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String item = editText.getText().toString();
-                lisnner.applyText(item);
+
+                String item = ProductName.getText().toString();
+                String quantity =ProductQuantity.getText().toString();
+                String price = ProductPricePerItem.getText().toString() ;
+                if(validateForm()){                lisnner.applyText(item,quantity,price);
+                }
+
+
 
             }
-        }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        }).setPositiveButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -45,8 +51,9 @@ public class dialog_of_product extends AppCompatDialogFragment {
                 lisnner.clearList();
             }
         });
-        editText =view.findViewById(R.id.productField);
-
+        ProductName =view.findViewById(R.id.productname);
+        ProductQuantity = view.findViewById(R.id.productquantity);
+        ProductPricePerItem = view.findViewById(R.id.productprice);
         return  builder.create();
     }
 
@@ -62,7 +69,36 @@ public class dialog_of_product extends AppCompatDialogFragment {
 
     public interface DialogLisnnerforproducts
     {
-        void applyText(String product);
+        void applyText(String item,String quantity,String price);
         void clearList();
+    }
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String productName = ProductName.getText().toString();
+        if (TextUtils.isEmpty(productName)) {
+            ProductName.setError("Required.");
+            valid = false;
+        } else {
+            ProductName.setError(null);
+        }
+
+        String password = ProductPricePerItem.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            ProductPricePerItem.setError("Required.");
+            valid = false;
+        } else {
+            ProductPricePerItem.setError(null);
+        }
+        String quantity = ProductQuantity.getText().toString();
+        if (TextUtils.isEmpty(quantity)) {
+            ProductQuantity.setError("Required.");
+            valid = false;
+        } else {
+            ProductQuantity.setError(null);
+        }
+        if(!valid){
+        Toast.makeText(getContext(),"Enter All fields to complete",Toast.LENGTH_LONG).show();}
+        return valid;
     }
 }

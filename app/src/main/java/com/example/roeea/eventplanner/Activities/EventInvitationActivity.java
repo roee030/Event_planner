@@ -37,10 +37,10 @@ public class EventInvitationActivity extends AppCompatActivity {
         eventID = getIntent().getStringExtra("eventID");
 
 
-        eventName = findViewById(R.id.txtEventName);
-        eventLocation = findViewById(R.id.txtLocation);
-        eventTime = findViewById(R.id.txtTime);
-        eventDate = findViewById(R.id.txtDate);
+//        eventName = findViewById(R.id.txtEventName);
+//        eventLocation = findViewById(R.id.txtLocation);
+//        eventTime = findViewById(R.id.txtTime);
+//        eventDate = findViewById(R.id.txtDate);
 
         pullEventDetailsFromDB(eventID);
 
