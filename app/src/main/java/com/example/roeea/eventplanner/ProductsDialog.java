@@ -22,13 +22,14 @@ import com.example.roeea.eventplanner.ObjectClasses.Product;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductsDialog extends AppCompatDialogFragment {
 
     private ProductsDialogListener listener;
-    private ArrayList<Product> products;
+    private List<Product> products;
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
@@ -78,7 +79,7 @@ public class ProductsDialog extends AppCompatDialogFragment {
 
     public interface ProductsDialogListener
     {
-        void listUpdated(ArrayList<Product> products);
+        void listUpdated(List<Product> products);
     }
 
     private class ProductsListAdapter extends RecyclerView.Adapter {

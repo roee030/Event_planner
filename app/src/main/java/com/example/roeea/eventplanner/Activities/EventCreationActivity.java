@@ -51,7 +51,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
     private Time eventTime;
 
-    private ArrayList<Product> productsArrayList;
+    private List<Product> productsArrayList;
     private User user;
 
     @Override
@@ -132,7 +132,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     private void addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
-                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList, String budget,
+                                    String eventTime, String eventDetails, List<Product> productsArrayList, String budget,
                                     List<String> ManagerUids, List<String> GuestsUids, List<String> invited) {
         Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList, budget);
         event.setMannager(ManagerUids);
@@ -206,7 +206,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     @Override
-    public void listUpdated(ArrayList<Product> products) {
+    public void listUpdated(List<Product> products) {
         productsArrayList = products;
     }
 }

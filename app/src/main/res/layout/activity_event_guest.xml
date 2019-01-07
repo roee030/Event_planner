@@ -14,11 +14,12 @@
         tools:context=".Activities.EventInvitationActivity">
 
         <TextView
-            android:id="@+id/txtInvitedTo"
+            android:id="@+id/txtEventName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="21dp"
             android:layout_marginTop="42dp"
             android:layout_marginBottom="10dp"
+            android:text="Event's name: "
             app:layout_constraintBottom_toTopOf="@+id/txtLoc"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,10 +28,11 @@
             android:id="@+id/txtLoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Location: "
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInvitedTo" />
+            app:layout_constraintTop_toBottomOf="@+id/txtEventName" />
 
         <TextView
             android:id="@+id/txtDate"
@@ -119,32 +121,20 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:scrollbars="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btnAccept"
+            app:layout_constraintBottom_toTopOf="@+id/btnAcceptChanges"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txtUsers"
-            app:layout_constraintTop_toBottomOf="@+id/txtUsers"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/txtUsers" />
 
         <Button
-            android:id="@+id/btnAccept"
+            android:id="@+id/btnAcceptChanges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accept"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnDecline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usersList" />
-
-        <Button
-            android:id="@+id/btnDecline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="Decline"
+            android:text="Accept changes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnAccept"
-            app:layout_constraintTop_toTopOf="@id/btnAccept" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usersList" />
 
         <TextView
             android:id="@+id/txtTotalProductCost"
@@ -156,6 +146,8 @@
             android:text="Your cost: "
             app:layout_constraintBottom_toTopOf="@+id/productsList"
             app:layout_constraintEnd_toEndOf="@+id/productsList" />
+
+
 
     </android.support.constraint.ConstraintLayout>
 

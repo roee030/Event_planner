@@ -80,7 +80,7 @@ public class Event {
     public String getBudget(){return budget; }
 
     public Event(String eventID, String eventName, String eventLoc, String eventDate,
-                 String eventTime, String eventDetails, ArrayList<Product> productsArrayList, String budget) {
+                 String eventTime, String eventDetails, List<Product> productsArrayList, String budget) {
 
         this.eventID = eventID;
         this.budget = budget;
