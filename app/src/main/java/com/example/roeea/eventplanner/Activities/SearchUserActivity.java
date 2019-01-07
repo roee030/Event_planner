@@ -1,6 +1,7 @@
 package com.example.roeea.eventplanner.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.User;
+import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -27,11 +30,22 @@ public class SearchUserActivity extends AppCompatActivity {
     private ImageButton mSearchBtn;
     private RecyclerView mResultList;
     private DatabaseReference mUserDatabase;
+    private Event event = new Event();;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_user);
+        Intent intent = getIntent();
+        String eventID = intent.getStringExtra("eventId");
+        //get event object
+        event.getEventByKey(eventID, new get<Event>() {
+            @Override
+            public void callBack(Event event) {
+                SearchUserActivity.this.event = event;
 
+            }
+
+        });
         mUserDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
 
