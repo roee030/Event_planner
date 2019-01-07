@@ -32,16 +32,13 @@
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.EventCreationActivity" />
         <activity android:name=".Activities.EventInvitationActivity" />
-        <activity android:name=".Activities.SearchUserActivity"
-            android:theme="@style/SearchTheme"/>
+        <activity android:name=".Activities.SearchUserActivity" />
         <activity
             android:name=".Activities.AccountActivity"
             android:label="@string/title_activity_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.UserSetting"
         android:label="Setting">
-
-
         </activity>
 
         <meta-data
