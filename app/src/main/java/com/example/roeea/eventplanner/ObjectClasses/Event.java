@@ -1,7 +1,6 @@
 package com.example.roeea.eventplanner.ObjectClasses;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event {
+public class Event{
     private String eventID;
     private String name;
     private String date;
@@ -25,10 +24,11 @@ public class Event {
     private List<Product> products;
     private String budget;
     private String totalEventBudget;
-    private DatabaseReference fireDatabaseT;
     private Event temp_event;
     final List<Event> m_events = new ArrayList<>();
     private static final String TAG = "EVENT CLASS";
+    private static DatabaseReference fireDatabaseT;
+
     public Event() {
     }
 
@@ -99,7 +99,7 @@ public class Event {
     public void getListOfEventsByKeys(final List<String> keys, final get<List<Event>> events)
     {
         fireDatabaseT = FirebaseDatabase.getInstance().getReference();
-        fireDatabaseT.child("Events").addValueEventListener(new ValueEventListener() {
+        fireDatabaseT.child("Events").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot event: dataSnapshot.getChildren()) {

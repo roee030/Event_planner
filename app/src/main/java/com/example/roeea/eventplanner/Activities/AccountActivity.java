@@ -3,39 +3,35 @@ package com.example.roeea.eventplanner.Activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.roeea.eventplanner.ViewModels.AccountViewModel;
-import com.example.roeea.eventplanner.ViewModels.FragmentViewModel;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
 import com.example.roeea.eventplanner.ObjectClasses.User;
-import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.example.roeea.eventplanner.R;
+import com.example.roeea.eventplanner.ViewModels.FragmentViewModel;
+import com.example.roeea.eventplanner.ViewModels.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +46,7 @@ public class AccountActivity extends AppCompatActivity {
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
     private ArrayList<List<String>> lists = new ArrayList<List<String>>();
     private static Event tempEvent = new Event();
-    private AccountViewModel accountViewModel;
+    private UserViewModel userViewModel;
 
 
     /**
@@ -70,8 +66,8 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
-        accountViewModel.loadUseer();
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.loadUseer();
 
         int numberOfTabs = 3;
         String eventID = getIntent().getStringExtra("eventID");
@@ -161,7 +157,7 @@ public class AccountActivity extends AppCompatActivity {
         private TextView textView;
         private FirebaseAuth mAuth;
         private User user = new User();
-        private AccountViewModel accountViewModel;
+        private UserViewModel userViewModel;
         private FragmentViewModel fragmentViewModel;
         private List<Event> events;
 
@@ -192,10 +188,10 @@ public class AccountActivity extends AppCompatActivity {
             textView = (TextView) rootView.findViewById(R.id.section_label);
             listView = (ListView) rootView.findViewById(R.id.accountListView);
             final int index = getArguments().getInt(ARG_SECTION_NUMBER);
-            accountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+            userViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
             fragmentViewModel = ViewModelProviders.of(this).get(FragmentViewModel.class);
             final ArrayList<List<String>> lists = new ArrayList<>();
-            accountViewModel.getUser().observe(this, new Observer<User>() {
+            userViewModel.getUser().observe(this, new Observer<User>() {
                 @Override
                 public void onChanged(@Nullable User user) {
                     if(user != null) {

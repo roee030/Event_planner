@@ -7,21 +7,19 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.roeea.eventplanner.ObjectClasses.User;
-import com.example.roeea.eventplanner.ObjectClasses.get;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static com.google.firebase.database.FirebaseDatabase.*;
 
-public class AccountViewModel extends ViewModel {
+public class UserViewModel extends ViewModel {
     private MutableLiveData<User> user = new MutableLiveData<>();
     private DatabaseReference fb;
     private FirebaseAuth mAuth;
-    private static final String TAG = "AccountViewModel";
+    private static final String TAG = "UserViewModel";
 
     public LiveData<User> getUser()
     {
@@ -39,7 +37,7 @@ public class AccountViewModel extends ViewModel {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
                             Log.e(TAG, user.getManagerOf().toString());
-                            AccountViewModel.this.user.setValue(user);
+                            UserViewModel.this.user.setValue(user);
                         }
 
                         @Override
