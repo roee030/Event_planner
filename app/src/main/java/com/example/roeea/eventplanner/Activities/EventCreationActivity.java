@@ -107,7 +107,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
                         eventDate.getText().toString(), eventTimeEditText.getText().toString(),
                         eventDetails.getText().toString(), productsArrayList, eventBudget.getText().toString(),
                         manager, new ArrayList<String>(), new ArrayList<String>());
-                Intent intent = new Intent(getBaseContext(), AccountActivity.class);
+                Intent intent = new Intent(getBaseContext(), SearchUserActivity.class);
+                intent.putExtra("eventId",eventID);
                 startActivity(intent);
 
             }

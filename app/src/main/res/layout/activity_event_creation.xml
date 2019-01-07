@@ -71,6 +71,13 @@
             android:inputType="none" />
 
 
+
+
+        <EditText
+            android:id="@+id/eventBudget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Set event's product budget" />
         <TextView
             android:id="@+id/eventProduct"
             android:layout_width="match_parent"
@@ -78,14 +85,7 @@
             android:text="Click here to set Products"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/colorAccent"/>
-
-        <EditText
-            android:id="@+id/eventBudget"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Set event's product budget" />
-
+            />
         <android.support.design.widget.TextInputLayout
 
             android:id="@+id/event_about_continer"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="150dp"
-            android:text="Submit" />
+            android:text="continue" />
 
     </LinearLayout>
 </ScrollView>
