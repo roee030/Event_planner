@@ -185,8 +185,8 @@ public class AccountActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_account, container, false);
-            textView = (TextView) rootView.findViewById(R.id.section_label);
-            listView = (ListView) rootView.findViewById(R.id.accountListView);
+            textView = rootView.findViewById(R.id.section_label);
+            listView = rootView.findViewById(R.id.accountListView);
             final int index = getArguments().getInt(ARG_SECTION_NUMBER);
             userViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
             fragmentViewModel = ViewModelProviders.of(this).get(FragmentViewModel.class);
