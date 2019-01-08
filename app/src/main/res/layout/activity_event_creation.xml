@@ -59,12 +59,20 @@
 
         <EditText
             android:id="@+id/eventDate"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Double click here to set Date" />
 
         <EditText
             android:id="@+id/eventTime"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Double click to set Time"
@@ -75,7 +83,7 @@
             android:id="@+id/eventBudget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Set event's product budget"
+            android:hint="Set individual product budget"
             android:inputType="number" />
         <TextView
             android:id="@+id/eventProduct"

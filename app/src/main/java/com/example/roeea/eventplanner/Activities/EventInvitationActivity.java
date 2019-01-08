@@ -419,12 +419,12 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
 
 
                 eventName.setText("Event's name:");
-                editEventName.setHint(event.getName());
-                editEventLoc.setHint(event.getLoc());
-                editEventDate.setHint(event.getDate());
-                editEventTime.setHint(event.getTime());
-                editEventDetails.setHint(event.getDetails());
-                editEventBudget.setHint(event.getBudget());
+                editEventName.setText(event.getName());
+                editEventLoc.setText(event.getLoc());
+                editEventDate.setText(event.getDate());
+                editEventTime.setText(event.getTime());
+                editEventDetails.setText(event.getDetails());
+                editEventBudget.setText(event.getBudget());
 
                 final DatabaseReference fUserRef = FBdb.getReference().child("Users").child(userID);
                 fUserRef.addValueEventListener(new ValueEventListener() {

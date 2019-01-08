@@ -206,15 +206,12 @@
             android:id="@+id/txtTotalProductCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginEnd="76dp"
             android:layout_marginRight="76dp"
             android:layout_marginBottom="16dp"
             android:text="Your cost: "
             app:layout_constraintBottom_toTopOf="@+id/productsList"
-            app:layout_constraintEnd_toEndOf="@+id/productsList"
-            app:layout_constraintStart_toEndOf="@+id/btnEditProductList" />
+            app:layout_constraintEnd_toEndOf="@+id/productsList" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/productsList"
             android:layout_width="0dp"
@@ -264,28 +261,6 @@
             app:layout_constraintStart_toEndOf="@+id/btnAcceptChanges"
             app:layout_constraintTop_toBottomOf="@+id/usersList"
              />
-
-
-        <Button
-            android:id="@+id/btnEditProductList"
-
-            android:layout_width="136dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="8dp"
-
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:text="Edit product list"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/productsList"
-            app:layout_constraintStart_toEndOf="@+id/txtProducts" />
-
-
 
 
     </android.support.constraint.ConstraintLayout>
