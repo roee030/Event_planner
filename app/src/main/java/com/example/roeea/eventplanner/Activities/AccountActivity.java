@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -197,7 +198,7 @@ public class AccountActivity extends AppCompatActivity {
                     if(user != null) {
                         PlaceholderFragment.this.user = user;
                         lists.add(user.getManagerOf().getEvents());
-                        lists.add(new ArrayList<String>(user.getGuestIn().getEvents().keySet()));
+                        lists.add(new ArrayList<String>(user.getGuestIn().getEvents().keySet()));///TODO: FIX IT Immediatly
                         lists.add(user.getInvitedTo().getInviteeEvent());
                         fragmentViewModel.loadEvents(lists.get(getArguments().getInt(ARG_SECTION_NUMBER)));
                     }
@@ -206,11 +207,13 @@ public class AccountActivity extends AppCompatActivity {
             fragmentViewModel.getEvent().observe(this, new Observer<List<Event>>() {
                 @Override
                 public void onChanged(@Nullable List<Event> events) {
+                    Log.e(TAG, "observe get event");
                     if (events != null) {
                         PlaceholderFragment.this.events = events;
                         ArrayList<String> names = new ArrayList<>();
                         for (Event e : events)
                             names.add(e.getName());
+                        Log.i(TAG, "names = " + names.toString());
                         ListAdapter listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
                         listView.setAdapter(listAdapter);
                     }

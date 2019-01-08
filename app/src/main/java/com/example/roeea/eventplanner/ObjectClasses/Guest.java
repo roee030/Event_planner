@@ -1,5 +1,6 @@
 package com.example.roeea.eventplanner.ObjectClasses;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,10 @@ public class Guest {
     }
 
     public List<Product> getProductsForEvent(String eventId) {
-        return events.get(eventId);
+        List<Product> result = events.get(eventId);
+        if(result == null)
+            result = new ArrayList<>();
+        return result;
     }
 
     public void setProductsForEvent(String eventId, List<Product> products) {

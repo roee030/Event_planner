@@ -157,7 +157,7 @@ public class SearchUserActivity extends AppCompatActivity {
                         user.getInvitedTo().getInviteeEvent().add(eventID);
                         adapter.getRef(getAdapterPosition()).setValue(user);
                         if (userID != null) {
-                            invited.add(eventID);
+                            invited.add(userID);
                             fireDatabaseT.child("Events").child(eventID).child("invited").setValue(invited);
                             Toast.makeText(SearchUserActivity.this, "User added", Toast.LENGTH_SHORT).show();
                         } else {

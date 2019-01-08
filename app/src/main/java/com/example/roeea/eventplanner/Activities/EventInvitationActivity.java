@@ -243,6 +243,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
     }
 
     private void runInviteLayout() {
+        Log.e(TAG, "inside runInviteLayout");
         setContentView(R.layout.activity_event_invitation);
         eventProductCost = findViewById(R.id.txtTotalProductCost);
 
@@ -279,6 +280,8 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                         fUserRef.removeEventListener(this);
                         User user = dataSnapshot.getValue(User.class);
                         user.getGuestIn().setProductsForEvent(eventID, products);
+                        user.getInvitedTo().getInviteeEvent().remove(eventID);
+                        user.getGuestIn().getEvents().put(eventID, event.getProducts());
                         fUserRef.setValue(user);
                     }
 
@@ -322,6 +325,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                 if(userStatus == 0) runInviteLayout();
                 else if(userStatus == 1) runGuestLayout();
                 else if(userStatus == 2) runManagerLayout();
+                else Toast.makeText(EventInvitationActivity.this, "Error: you don't appear in invited list", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "pulling details from event: " + event.getName());
             }
             @Override
@@ -566,7 +570,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 fEventRef.removeEventListener(this);
                 event = dataSnapshot.getValue(Event.class);
-                event.getInvited().add(userID);
+                event.getInvited().add(userID);///TODO: WHY?
                 fEventRef.child("invited").setValue(event.getInvited());
                 Log.d(TAG, "pulling details from event: " + event.getName());
                 updateUiFromEvent(userStatus);
