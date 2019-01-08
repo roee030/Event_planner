@@ -100,7 +100,6 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
         pullEventDetailsFromDB(eventID, userStatus);
 
         accept = findViewById(R.id.btnAcceptChanges);
-        editProducts = findViewById(R.id.btnEditProductList);
         editEventTime = findViewById(R.id.editEventTime);
         editEventDate = findViewById(R.id.editEventDate);
         productsList = findViewById(R.id.productsList);

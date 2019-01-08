@@ -97,7 +97,8 @@
             android:text="Guests: "
             app:layout_constraintBottom_toTopOf="@+id/usersList"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productsList" />
+            app:layout_constraintTop_toBottomOf="@+id/productsList"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/productsList"
@@ -108,7 +109,7 @@
             android:scrollbars="vertical"
             app:layout_constraintBottom_toTopOf="@+id/usersList"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txtProducts"
+            app:layout_constraintStart_toStartOf="@id/txtProducts"
             app:layout_constraintTop_toBottomOf="@+id/txtProducts"
             tools:listitem="@layout/product_item" />
 

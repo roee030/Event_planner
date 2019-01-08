@@ -134,11 +134,15 @@ public class AccountActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(getBaseContext(), UserSetting.class));
         }
-        if(id == R.id.SearchUser)
+        if(id == R.id.Add_event)
         {
-            startActivity(new Intent(getBaseContext(), SearchUserActivity.class));
+            startActivity(new Intent(AccountActivity.this, EventCreationActivity.class));
         }
-
+        if(id == R.id.LogOut)
+        {
+            fAuth.signOut();
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
