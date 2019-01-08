@@ -322,10 +322,10 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                 if(event.getInvited().contains(userID)) userStatus = 0;
                 if(event.getGuests().contains(userID)) userStatus = 1;
                 if(event.getMannager().contains(userID)) userStatus = 2;
-                if(userStatus == 0) runInviteLayout();
+                if(userStatus == 0 || userStatus ==-1 ) runInviteLayout();
                 else if(userStatus == 1) runGuestLayout();
                 else if(userStatus == 2) runManagerLayout();
-                else Toast.makeText(EventInvitationActivity.this, "Error: you don't appear in invited list", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(EventInvitationActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "pulling details from event: " + event.getName());
             }
             @Override
@@ -570,7 +570,8 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
             public void onDataChange(DataSnapshot dataSnapshot) {
                 fEventRef.removeEventListener(this);
                 event = dataSnapshot.getValue(Event.class);
-                event.getInvited().add(userID);///TODO: WHY?
+                if(userStatus == -1)
+                    event.getInvited().add(userID);///TODO: WHY?
                 fEventRef.child("invited").setValue(event.getInvited());
                 Log.d(TAG, "pulling details from event: " + event.getName());
                 updateUiFromEvent(userStatus);

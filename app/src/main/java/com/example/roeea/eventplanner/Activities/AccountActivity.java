@@ -198,7 +198,7 @@ public class AccountActivity extends AppCompatActivity {
                     if(user != null) {
                         PlaceholderFragment.this.user = user;
                         lists.add(user.getManagerOf().getEvents());
-                        lists.add(new ArrayList<String>(user.getGuestIn().getEvents().keySet()));///TODO: FIX IT Immediatly
+                        lists.add(new ArrayList<String>(user.getGuestIn().getEvents().keySet()));
                         lists.add(user.getInvitedTo().getInviteeEvent());
                         fragmentViewModel.loadEvents(lists.get(getArguments().getInt(ARG_SECTION_NUMBER)));
                     }

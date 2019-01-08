@@ -99,7 +99,7 @@ public class Event{
     public void getListOfEventsByKeys(final List<String> keys, final get<List<Event>> events)
     {
         fireDatabaseT = FirebaseDatabase.getInstance().getReference();
-        fireDatabaseT.child("Events").addValueEventListener(new ValueEventListener() {
+        fireDatabaseT.child("Events").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot event: dataSnapshot.getChildren()) {

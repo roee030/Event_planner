@@ -71,13 +71,12 @@
             android:inputType="none" />
 
 
-
-
         <EditText
             android:id="@+id/eventBudget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Set event's product budget" />
+            android:hint="Set event's product budget"
+            android:inputType="number" />
         <TextView
             android:id="@+id/eventProduct"
             android:layout_width="match_parent"
