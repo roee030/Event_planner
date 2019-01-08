@@ -17,7 +17,6 @@ import android.widget.TimePicker;
 
 import com.example.roeea.eventplanner.DatePickerFragment;
 import com.example.roeea.eventplanner.ObjectClasses.Event;
-import com.example.roeea.eventplanner.ObjectClasses.Manager;
 import com.example.roeea.eventplanner.ObjectClasses.Product;
 import com.example.roeea.eventplanner.ObjectClasses.User;
 import com.example.roeea.eventplanner.ObjectClasses.get;
@@ -72,7 +71,7 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
 
         if(fAuth.getCurrentUser()==null)
         {
-            Intent loginIntent = new Intent(this, MainActivity.class);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             finish();
         }

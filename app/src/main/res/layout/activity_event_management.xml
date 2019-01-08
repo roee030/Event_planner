@@ -13,7 +13,7 @@
         android:paddingLeft="52dp"
 
 
-        tools:context=".Activities.EventInvitationActivity">
+        tools:context=".Activities.EventActivity">
 
         <TextView
             android:id="@+id/txtEventName"

@@ -77,7 +77,7 @@ public class AccountActivity extends AppCompatActivity {
 
         // Receiving invite
         if (eventID != null) {
-            startActivity(new Intent(this, EventInvitationActivity.class)
+            startActivity(new Intent(this, EventActivity.class)
                     .putExtra("eventID", eventID));
         }
 
@@ -108,9 +108,8 @@ public class AccountActivity extends AppCompatActivity {
 
 
         fAuth = FirebaseAuth.getInstance();
-//       fAuth.getInstance().signOut();
         if (fAuth.getCurrentUser() == null) {
-            Intent loginIntent = new Intent(this, MainActivity.class);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             finish();
         }
@@ -204,7 +203,7 @@ public class AccountActivity extends AppCompatActivity {
                         lists.add(user.getManagerOf().getEvents());
                         lists.add(new ArrayList<String>(user.getGuestIn().getEvents().keySet()));
                         lists.add(user.getInvitedTo().getInviteeEvent());
-                        fragmentViewModel.loadEvents(lists.get(getArguments().getInt(ARG_SECTION_NUMBER)));
+                        fragmentViewModel.loadEvents(lists.get(index));
                     }
                 }
             });
@@ -226,14 +225,10 @@ public class AccountActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(getContext(), EventInvitationActivity.class);
+                    Intent intent = new Intent(getContext(), EventActivity.class);
                     intent.putExtra("userStatus", getArguments().getInt(ARG_SECTION_NUMBER));
                     startActivity(intent
                             .putExtra("eventID", events.get(position).getEventID()));
-
-                    //                    Intent intent = new Intent(this, EventPrievewActivity.class);
-//                    intent.putExtra("Event's ID", result.get(position));
-//                    startActivity(intent);
                 }
             });
             return rootView;

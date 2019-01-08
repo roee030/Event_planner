@@ -21,7 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private Button login;
     private Button RegisterButton;
     private EditText Email;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             user.getUserByUID(mAuth.getUid(), new get<User>() {
                 @Override
                 public void callBack(User user) {
-                    MainActivity.this.user = user;
+                    LoginActivity.this.user = user;
                 }
             });
         login.setOnClickListener(new View.OnClickListener() {
@@ -61,22 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getBaseContext(), RegisterActivity.class));
             }
         });
-
-
-
-        // Sending invite stuff, move to another place
-        findViewById(R.id.btnInvite).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String eventId = "-LVUftvXIO_ezSZlw3dP";
-                startActivity(
-                        new Intent(Intent.ACTION_SEND)
-                                .putExtra(Intent.EXTRA_TEXT, "Please join my event at https://sites.google.com/view/event-planner-ariel?eventId=" + eventId)
-                                .setType("text/plain"));
-            }
-        });
-
-
     }
 
     private String receiveInvite() {
@@ -112,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                         } else {
 
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -124,25 +108,22 @@ public class MainActivity extends AppCompatActivity {
     private void startSignIn() {
         String UserMail = Email.getText().toString();
         String UserPassword = Password.getText().toString();
-//        if (TextUtils.isEmpty(UserMail) || TextUtils.isEmpty(UserPassword)) {
-//            Toast.makeText(MainActivity.this, "Fields are empty", Toast.LENGTH_LONG).show();
-//        }
         if (!validateForm()) {
             return;
         }
-        mAuth.signInWithEmailAndPassword(UserMail, UserPassword).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(UserMail, UserPassword).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.i("MainActivity", "auth succedded");
+                    Log.i("LoginActivity", "auth succedded");
                     user.getUserByUID(mAuth.getUid(), new get<User>() {
                         @Override
                         public void callBack(User user) {
-                            MainActivity.this.user = user;
+                            LoginActivity.this.user = user;
                             if (user == null)
-                                Log.e("MainActivity/startSign","user is null + " + mAuth.getUid());
+                                Log.e("LoginActivity/startSign","user is null + " + mAuth.getUid());
                         }
                     });
                     startAccountActivity();
@@ -152,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startAccountActivity() {
-        startActivity(new Intent(MainActivity.this, AccountActivity.class)
+        startActivity(new Intent(LoginActivity.this, AccountActivity.class)
                 .putExtra("eventID", receiveInvite()));
     }
 

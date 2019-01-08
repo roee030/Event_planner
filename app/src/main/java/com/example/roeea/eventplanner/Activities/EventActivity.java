@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class EventInvitationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, ProductsDialog.ProductsDialogListener {
+public class EventActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, ProductsDialog.ProductsDialogListener {
     private static final String TAG = "event invitation";
 
     String eventID;
@@ -65,7 +65,6 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
     RecyclerView usersList;
     Button accept;
     Button decline;
-    Button editProducts;
 
     private FirebaseAuth fAuth;
     private FirebaseDatabase FBdb;
@@ -89,8 +88,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
         FBdb = FirebaseDatabase.getInstance();
         userID = fAuth.getCurrentUser().getUid();
 
-        //differentiating user permissions (0 - Invitee, 1 - Guest, 2 - Manager)
-        //checkUserEventStatus(eventID, userID);
+        //differentiating user permissions (2 - Invitee, 1 - Guest, 0 - Manager)
         userStatus = getIntent().getIntExtra("userStatus", -1);
 
         if(userStatus == 2 || userStatus ==-1 ) runInviteLayout();
@@ -115,14 +113,6 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
         usersList.setLayoutManager(new LinearLayoutManager(this));
         usersList.setAdapter(new UsersListAdapter(usersList));
 
-        //not working...
-//        editProducts.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openProductListDialog();
-//                productsList.getAdapter().notifyDataSetChanged();
-//            }
-//        });
 
         editEventTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +174,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                     }
                 });
 
-                Toast.makeText(EventInvitationActivity.this, "Saved changes successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventActivity.this, "Saved changes successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
 
@@ -236,7 +226,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                     }
                 });
 
-                Toast.makeText(EventInvitationActivity.this, "Saved changes successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventActivity.this, "Saved changes successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
 
@@ -296,7 +286,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                     }
                 });
 
-                Toast.makeText(EventInvitationActivity.this, "Event Accepted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventActivity.this, "Event Accepted!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
 
@@ -308,36 +298,12 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
             public void onClick(View v) {
                 event.getInvited().remove(userID);
                 fEventRef.setValue(event);
-                Toast.makeText(EventInvitationActivity.this, "Event Declined!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventActivity.this, "Event Declined!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getBaseContext(), AccountActivity.class);
                 startActivity(intent);
             }
         });
 
-    }
-
-    private void checkUserEventStatus(String eventID, final String userID) {
-        fEventRef = FBdb.getReference().child("Events").child(eventID);
-        fEventRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                fEventRef.removeEventListener(this);
-                event = dataSnapshot.getValue(Event.class);
-                if(event.getInvited().contains(userID)) userStatus = 0;
-                if(event.getGuests().contains(userID)) userStatus = 1;
-                if(event.getMannager().contains(userID)) userStatus = 2;
-                if(userStatus == 0 || userStatus ==-1 ) runInviteLayout();
-                else if(userStatus == 1) runGuestLayout();
-                else if(userStatus == 2) runManagerLayout();
-                else Toast.makeText(EventInvitationActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "pulling details from event: " + event.getName());
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
     }
 
     private void updateUiFromEvent(int status) {
@@ -545,7 +511,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
     private void pullEventDetailsFromDB(final String eventID, final int userStatus) {
         if(fAuth.getCurrentUser() == null)
         {
-            Intent loginIntent = new Intent(this, MainActivity.class);
+            Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
             finish();
         }

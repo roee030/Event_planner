@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:paddingStart="52dp"
         android:paddingLeft="52dp"
-        tools:context=".Activities.EventInvitationActivity">
+        tools:context=".Activities.EventActivity">
 
         <TextView
             android:id="@+id/txtEventName"
