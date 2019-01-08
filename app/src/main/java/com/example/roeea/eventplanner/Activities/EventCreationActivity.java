@@ -133,8 +133,8 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
     }
 
     private Event addEventToFireBase(String eventID, String eventName, String eventLoc, String eventDate,
-                                    String eventTime, String eventDetails, ArrayList<Product> productsArrayList, String budget,
-                                    List<String> ManagerUids, List<String> GuestsUids, List<String> invited) {
+                                     String eventTime, String eventDetails, ArrayList<Product> productsArrayList, String budget,
+                                     List<String> ManagerUids, List<String> GuestsUids, List<String> invited) {
         Event event = new Event(eventID,eventName,eventLoc,eventDate,eventTime,eventDetails,productsArrayList, budget);
         event.setMannager(ManagerUids);
         Log.e("addEventToFirebase", "invited = " + invited.toString());
@@ -150,33 +150,14 @@ public class EventCreationActivity extends AppCompatActivity implements TimePick
         user.getUserByUID(userID, new get<User>() {
             @Override
             public void callBack(User user) {
-                EventCreationActivity.this.user=user;
-                Manager usermanagerof = user.getManagerOf();
-                if(user.getManagerOf() == null) Log.w("EventCreation", "usermanagerof is null");
-                usermanagerof.addEventtoList(eventID);
-                userRef.child("managerOf").setValue(usermanagerof);
+
+                EventCreationActivity.this.user = user;
+                user.getGuestIn().getEvents().put(eventID, productsArrayList);
+                user.getManagerOf().addEventtoList(eventID);
+                if (user.getManagerOf() == null) Log.w("EventCreation", "usermanagerof is null");
+                userRef.setValue(user);
             }
         });
-//        userRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//
-//
-////
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.e("EventCreationActivity ", "Failed to read value.", error.toException());
-//            }
-//        });
-
-
-
-
     }
 
     @Override

@@ -5,26 +5,13 @@
 
     <EditTextPreference
     android:title="Change User name"
-        android:dialogTitle="changename"
+        android:dialogTitle="Change name"
 
         android:key="changeUserName"
     android:summary="edit your name by click here"
         android:id="@+id/changename"
     />
 
-    <EditTextPreference
-        android:title="Change User password"
-        android:key="changeUserPassword"
-        android:summary="edit your password by click here"
-        />
-    <EditTextPreference
-        android:title="Delete User"
-        android:key="deleteUser"
-        android:summary="delete your user for good"
-        />
-    <EditTextPreference
-        android:title="Contact us"
-        android:key="contact"
-        android:summary="send us an Email"
-        />
+  
+
 </PreferenceScreen>

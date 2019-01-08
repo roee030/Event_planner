@@ -36,6 +36,7 @@ public class UserSetting extends AppCompatActivity implements PreferenceSetting.
     private EditTextPreference editTextPreference;
     User user1 = new User ();
     private String nameToReplace;
+    private String passworToChange;
     private String uid;
 
 
@@ -96,15 +97,12 @@ public class UserSetting extends AppCompatActivity implements PreferenceSetting.
                                                           String key) {
                         if (key.equals("changeUserName")) {
                           SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                          nameToReplace = SP.getString("changeUserName","roee");
+                          nameToReplace = SP.getString("changeUserName","");
                           uid = FBAuth.getUid();
                           changeUserNameInDB(nameToReplace,uid);
 
                         }
-                        if (key.equals("changeUserPassword"))
-                        {
-                            //add fun to change password via FBAUTH
-                        }
+
 
                     }
 

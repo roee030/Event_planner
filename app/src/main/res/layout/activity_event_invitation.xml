@@ -14,7 +14,7 @@
         tools:context=".Activities.EventInvitationActivity">
 
         <TextView
-            android:id="@+id/txtInvitedTo"
+            android:id="@+id/txtEventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
@@ -30,7 +30,7 @@
             android:layout_marginTop="15dp"
             android:text="Location: "
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInvitedTo" />
+            app:layout_constraintTop_toBottomOf="@+id/txtEventName" />
 
         <TextView
             android:id="@+id/txtDate"

@@ -226,8 +226,11 @@ public class AccountActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startActivity(new Intent(getContext(), EventInvitationActivity.class)
+                    Intent intent = new Intent(getContext(), EventInvitationActivity.class);
+                    intent.putExtra("userStatus", getArguments().getInt(ARG_SECTION_NUMBER));
+                    startActivity(intent
                             .putExtra("eventID", events.get(position).getEventID()));
+
                     //                    Intent intent = new Intent(this, EventPrievewActivity.class);
 //                    intent.putExtra("Event's ID", result.get(position));
 //                    startActivity(intent);

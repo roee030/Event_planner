@@ -84,13 +84,18 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
         super.onCreate(savedInstanceState);
         eventID = getIntent().getStringExtra("eventID");
 
+
         fAuth = FirebaseAuth.getInstance();
         FBdb = FirebaseDatabase.getInstance();
         userID = fAuth.getCurrentUser().getUid();
 
         //differentiating user permissions (0 - Invitee, 1 - Guest, 2 - Manager)
-        checkUserEventStatus(eventID, userID);
+        //checkUserEventStatus(eventID, userID);
+        userStatus = getIntent().getIntExtra("userStatus", -1);
 
+        if(userStatus == 2 || userStatus ==-1 ) runInviteLayout();
+        else if(userStatus == 1) runGuestLayout();
+        else if(userStatus == 0) runManagerLayout();
     }
 
     private void runManagerLayout() {
@@ -280,7 +285,7 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                         User user = dataSnapshot.getValue(User.class);
                         user.getGuestIn().setProductsForEvent(eventID, products);
                         user.getInvitedTo().getInviteeEvent().remove(eventID);
-                        user.getGuestIn().getEvents().put(eventID, event.getProducts());
+                        user.getGuestIn().getEvents().put(eventID, products);
                         fUserRef.setValue(user);
                     }
 
@@ -336,18 +341,17 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
     }
 
     private void updateUiFromEvent(int status) {
+        eventName = findViewById(R.id.txtEventName);
+        eventLocation = findViewById(R.id.txtLoc);
+        eventTime = findViewById(R.id.txtTime);
+        eventDate = findViewById(R.id.txtDate);
+        eventDetails = findViewById(R.id.txtDetails);
+        eventBudget = findViewById(R.id.txtBudget);
+        usersList = findViewById(R.id.usersList);
+        txtUsers = findViewById(R.id.txtUsers);
 
         switch (status) {
-            case 0 : {
-                eventName = findViewById(R.id.txtInvitedTo);
-                eventLocation = findViewById(R.id.txtLoc);
-                eventTime = findViewById(R.id.txtTime);
-                eventDate = findViewById(R.id.txtDate);
-                eventDetails = findViewById(R.id.txtDetails);
-                eventBudget = findViewById(R.id.txtBudget);
-                usersList = findViewById(R.id.usersList);
-                txtUsers = findViewById(R.id.txtUsers);
-
+            case 2 : {
                 eventName.setText("You have been invited to " + event.getName() + "!");
                 eventLocation.append(event.getLoc());
                 eventTime.append(event.getTime());
@@ -365,16 +369,8 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                 productsList.getAdapter().notifyDataSetChanged();
             }
             break;
-            case 1 : {
-                eventName = findViewById(R.id.txtEventName);
-                eventLocation = findViewById(R.id.txtLoc);
-                eventTime = findViewById(R.id.txtTime);
-                eventDate = findViewById(R.id.txtDate);
-                eventDetails = findViewById(R.id.txtDetails);
-                eventBudget = findViewById(R.id.txtBudget);
-                usersList = findViewById(R.id.usersList);
-                txtUsers = findViewById(R.id.txtUsers);
 
+            case 1 : {
                 eventName.setText("Event's name: " + event.getName());
                 eventLocation.append(event.getLoc());
                 eventTime.append(event.getTime());
@@ -402,15 +398,8 @@ public class EventInvitationActivity extends AppCompatActivity implements TimePi
                 });
             }
             break;
-            case 2 : {
-                eventName = findViewById(R.id.txtEventName);
-                eventLocation = findViewById(R.id.txtLoc);
-                eventTime = findViewById(R.id.txtTime);
-                eventDate = findViewById(R.id.txtDate);
-                eventDetails = findViewById(R.id.txtDetails);
-                eventBudget = findViewById(R.id.txtBudget);
-                usersList = findViewById(R.id.usersList);
-                txtUsers = findViewById(R.id.txtUsers);
+            //manager UI
+            case 0 : {
                 editEventName = findViewById(R.id.editEventName);
                 editEventLoc = findViewById(R.id.editEventLoc);
                 editEventDetails = findViewById(R.id.editEventDetails);
