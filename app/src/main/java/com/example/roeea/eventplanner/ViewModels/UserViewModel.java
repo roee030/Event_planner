@@ -36,7 +36,6 @@ public class UserViewModel extends ViewModel {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            Log.e(TAG, user.getManagerOf().toString());
                             UserViewModel.this.user.setValue(user);
                         }
 
